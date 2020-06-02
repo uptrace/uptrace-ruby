@@ -1,0 +1,8 @@
+--no-private
+--title=Uptrace
+--markup=markdown
+--main=README.md
+./lib/uptrace/**/*.rb
+./lib/uptrace.rb
+-
+README.md
