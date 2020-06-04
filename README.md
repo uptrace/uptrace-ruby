@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/uptrace/uptrace-ruby.svg?branch=master)](https://travis-ci.org/uptrace/uptrace-ruby)
 
+## Installation
+
+```bash
+gem install uptrace
+```
+
 ## Introduction
 
 uptrace-ruby is an exporter for [OpenTelemetry](https://opentelemetry.io/) that
