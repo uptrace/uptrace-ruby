@@ -13,4 +13,4 @@ gem install uptrace
 uptrace-ruby is an exporter for Ruby that sends your traces/spans and metrics to
 [Uptrace.dev](https://uptrace.dev).
 
-See [uptrace-python documentation](https://docs.uptrace.dev/python/) for details.
+See [uptrace-ruby documentation](https://docs.uptrace.dev/ruby/) for details.
