@@ -4,7 +4,6 @@ require 'uri'
 require 'net/http'
 require 'json'
 
-require 'opentelemetry'
 require 'opentelemetry/sdk'
 require 'msgpack'
 require 'zstd-ruby'
@@ -36,7 +35,7 @@ module Uptrace
 
       # Called to export sampled {OpenTelemetry::SDK::Trace::SpanData} structs.
       #
-      # @param [Enumerable<OpenTelemetry::SDK::Trace::SpanData>] span_data the
+      # @param [Enumerable<OpenTelemetry::SDK::Trace::SpanData>] spans the
       #   list of recorded {OpenTelemetry::SDK::Trace::SpanData} structs to be
       #   exported.
       # @param [optional Numeric] timeout An optional timeout in seconds.
@@ -158,7 +157,7 @@ module Uptrace
       end
 
       ##
-      # @param [Integer] data
+      # @param [Integer] timestamp
       # @return [Integer]
       #
       def as_unix_nano(timestamp)

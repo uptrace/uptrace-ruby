@@ -20,5 +20,5 @@ end
 if RUBY_ENGINE == 'truffleruby'
   task default: %i[test]
 else
-  task default: %i[test rubocop yard]
+  task default: %i[test rubocop yard] # rubocop:disable Rake/DuplicateTask
 end
