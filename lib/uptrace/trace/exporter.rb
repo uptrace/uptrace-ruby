@@ -1,104 +1,125 @@
 # frozen_string_literal: true
 
 require 'uri'
+require 'net/http'
+require 'json'
 
+require 'opentelemetry'
+require 'opentelemetry/sdk'
 require 'msgpack'
-require 'lz4-ruby'
+require 'zstd-ruby'
 
 module Uptrace
   module Trace
-    # @!visibility private
-    ExpoSpan = Struct.new(
-      :id,
-      :parentId,
-      :name,
-      :kind,
-      :startTime,
-      :endTime,
-      :statusCode,
-      :statusMessage,
-      :attrs,
-      :events,
-      :links,
-      :resource
-    )
-
     # Exporter is a span exporter for OpenTelemetry.
     class Exporter
+      SUCCESS = OpenTelemetry::SDK::Trace::Export::SUCCESS
+      FAILURE = OpenTelemetry::SDK::Trace::Export::FAILURE
+      TIMEOUT = OpenTelemetry::SDK::Trace::Export::TIMEOUT
+      private_constant(:SUCCESS, :FAILURE, :TIMEOUT)
+
       ##
       # @param [Config] cfg
       #
       def initialize(cfg)
         @cfg = cfg
 
-        begin
-          @uri = URI.parse(cfg.dsn)
-        rescue URI::InvalidURIError => e
-          @disabled = true
-          Uptrace.logger.error("can't parse dsn=#{cfg.dsn}: #{e}")
-        else
-          @endpoint = "#{@uri.scheme}://#{@uri.host}/api/v1/tracing#{@uri.path}/spans"
-        end
+        dsn = @cfg.dsno
+        @endpoint = "/api/v1/tracing/#{dsn.project_id}/spans"
+
+        @http = Net::HTTP.new(dsn.host, 443)
+        @http.use_ssl = true
+        @http.open_timeout = 5
+        @http.read_timeout = 5
+        @http.keep_alive_timeout = 30
       end
 
-      def export(spans)
-        return if @disabled
+      # Called to export sampled {OpenTelemetry::SDK::Trace::SpanData} structs.
+      #
+      # @param [Enumerable<OpenTelemetry::SDK::Trace::SpanData>] span_data the
+      #   list of recorded {OpenTelemetry::SDK::Trace::SpanData} structs to be
+      #   exported.
+      # @param [optional Numeric] timeout An optional timeout in seconds.
+      # @return [Integer] the result of the export.
+      def export(spans, timeout: nil)
+        return SUCCESS if @disabled
+        return FAILURE if @shutdown
 
-        traces = {}
+        out = []
 
         spans.each do |span|
-          trace = traces[span.trace_id]
-
-          if trace.nil?
-            trace = []
-            traces[span.trace_id] = trace
-          end
-
-          expose = expo_span(span)
-          trace.push(expose)
+          out.push(uptrace_span(span))
         end
+
+        send({ spans: out }, timeout: timeout)
+      end
+
+      # Called when {OpenTelemetry::SDK::Trace::Tracer#shutdown} is called, if
+      # this exporter is registered to a {OpenTelemetry::SDK::Trace::Tracer}
+      # object.
+      #
+      # @param [optional Numeric] timeout An optional timeout in seconds.
+      def shutdown(timeout: nil) # rubocop:disable Lint/UnusedMethodArgument
+        @shutdown = true
+        @http.finish if @http.started?
       end
 
       private
 
-      def send(traces)
-        req = build_request(traces: traces)
-        connection.request(req)
+      ##
+      # @return [hash]
+      #
+      def uptrace_span(span)
+        out = {
+          id: span.span_id.unpack1('Q'),
+          traceId: span.trace_id,
+
+          name: span.name,
+          kind: kind_as_str(span.kind),
+          startTime: as_unix_nano(span.start_timestamp),
+          endTime: as_unix_nano(span.end_timestamp),
+
+          resource: uptrace_resource(span.resource),
+          attrs: span.attributes,
+
+          statusCode: status_code_as_str(span.status.code),
+          statusMessage: span.status.description,
+
+          tracer: uptrace_tracer(span.instrumentation_library)
+        }
+
+        out['parentId'] = span.parent_span_id.unpack1('Q') if span.parent_span_id
+
+        out['events'] = uptrace_events(span.events) unless span.events.nil?
+        out['links'] = uptrace_links(span.links) unless span.links.nil?
+
+        out
       end
 
-      ##
-      # @return [ExpoSpan]
-      #
-      def expo_span(span)
-        expose = ExpoSpan.new
+      def send(data, timeout: nil) # rubocop:disable Lint/UnusedMethodArgument
+        req = build_request(data)
 
-        expose.id = span.id
-        expose.parentId = span.parent_span_id
-
-        expose.name = span.name
-        expose.kind = span.kind
-        expose.startTime = span.start_timestamp.to_i
-        expose.endTime = span.end_timestamp.to_i
-        expose.statusCode = span.status.canonical_code
-        expose.statusMessage = span.status.description
-        expose.attrs = span.attributes
-
-        expose
-      end
-
-      ##
-      # @return [Net::HTTP]
-      #
-      def connection
-        unless @conn
-          @conn = Net::HTTP.new(@uri.host, @uri.port)
-          @conn.use_ssl = @uri.is_a?(URI::HTTPS)
-          @conn.open_timeout = 5
-          @conn.read_timeout = 5
-          @conn.keep_alive_timeout = 30
+        begin
+          resp = @http.request(req)
+        rescue Net::OpenTimeout, Net::ReadTimeout
+          return FAILURE
         end
 
-        @conn
+        case resp
+        when Net::HTTPOK
+          resp.body # Read and discard body
+          SUCCESS
+        when Net::HTTPBadRequest
+          data = JSON.parse(resp.body)
+          Uptrace.logger.error("status=#{data['status']}: #{data['message']}")
+          FAILURE
+        when Net::HTTPInternalServerError
+          resp.body
+          FAILURE
+        else
+          @http.finish
+          FAILURE
+        end
       end
 
       ##
@@ -106,17 +127,106 @@ module Uptrace
       # @return [Net::HTTP::Post]
       #
       def build_request(data)
-        data = data.to_msgpack
-        data = LZ4.compress data
+        data = MessagePack.pack(data)
+        data = Zstd.compress(data, 3)
 
         req = Net::HTTP::Post.new(@endpoint)
-        req['Authorization'] = @uri.user
-        req['Content-Type'] = 'application/msgpack'
-        req['Content-Encoding'] = 'lz4'
-        req['Connection'] = 'keep-alive'
+        req.add_field('Authorization', "Bearer #{@cfg.dsno.token}")
+        req.add_field('Content-Type', 'application/msgpack')
+        req.add_field('Content-Encoding', 'zstd')
+        req.add_field('Connection', 'keep-alive')
         req.body = data
 
         req
+      end
+
+      # @param [SpanKind] kind
+      # @return [String]
+      def kind_as_str(kind)
+        case kind
+        when OpenTelemetry::Trace::SpanKind::SERVER
+          'server'
+        when OpenTelemetry::Trace::SpanKind::CLIENT
+          'client'
+        when OpenTelemetry::Trace::SpanKind::PRODUCER
+          'producer'
+        when OpenTelemetry::Trace::SpanKind::CONSUMER
+          'consumer'
+        else
+          'internal'
+        end
+      end
+
+      ##
+      # @param [Integer] data
+      # @return [Integer]
+      #
+      def as_unix_nano(timestamp)
+        (timestamp.to_r * 1_000_000_000).to_i
+      end
+
+      ##
+      # @param [Integer] code
+      # @return [String]
+      #
+      def status_code_as_str(code)
+        case code
+        when OpenTelemetry::Trace::Status::OK
+          'ok'
+        when OpenTelemetry::Trace::Status::ERROR
+          'error'
+        else
+          'unset'
+        end
+      end
+
+      ##
+      # @param [OpenTelemetry::SDK::Resources::Resource] resource
+      # @return [Hash]
+      #
+      def uptrace_resource(resource)
+        out = {}
+        resource.attribute_enumerator.map { |key, value| out[key] = value }
+        out
+      end
+
+      def uptrace_events(events)
+        out = []
+        events.each do |event|
+          out.push(
+            {
+              name: event.name,
+              attrs: event.attributes,
+              time: as_unix_nano(event.timestamp)
+            }
+          )
+        end
+        out
+      end
+
+      def uptrace_links(links)
+        out = []
+        links.each do |link|
+          out.push(
+            {
+              trace_id => link.span_context.trace_id,
+              span_id => link.span_context.span_id.unpack1('Q'),
+              attrs => link.attributes
+            }
+          )
+        end
+        out
+      end
+
+      ##
+      # @param [OpenTelemetry::SDK::InstrumentationLibrary] il
+      # @return [Hash]
+      #
+      def uptrace_tracer(il)
+        {
+          name: il.name,
+          version: il.version
+        }
       end
     end
   end

@@ -8,8 +8,9 @@ module Uptrace
 
   attr_accessor :logger
 
-  self.logger = Logger.new(STDOUT)
+  self.logger = Logger.new($stdout)
 end
 
 require 'uptrace/version'
+require 'uptrace/client'
 require 'uptrace/trace'

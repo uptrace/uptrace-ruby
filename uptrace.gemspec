@@ -25,8 +25,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.5.0'
 
-  spec.add_dependency 'lz4-ruby', '~> 0.3.3'
   spec.add_dependency 'msgpack', '~> 1.3'
+  spec.add_dependency 'opentelemetry-sdk', '~> 0.14.0'
+  spec.add_dependency 'zstd-ruby', '~> 1.4.5.0'
 
   spec.add_development_dependency 'bundler', '>= 1.17'
   spec.add_development_dependency 'minitest', '~> 5.0'
