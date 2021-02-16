@@ -12,5 +12,6 @@ module Uptrace
 end
 
 require 'uptrace/version'
+require 'uptrace/dsn'
 require 'uptrace/client'
 require 'uptrace/trace'

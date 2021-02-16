@@ -8,7 +8,7 @@ module Uptrace
     attr_reader :dsn, :port, *KEYS
 
     def initialize(dsn)
-      raise ArgumentError, "uptrace: DSN can't be empty" unless dsn
+      raise ArgumentError, "uptrace: DSN can't be empty" if dsn.empty?
 
       begin
         uri = URI.parse(dsn)
@@ -25,7 +25,7 @@ module Uptrace
 
       KEYS.each do |k|
         v = public_send(k)
-        raise ArgumentError, %(uptrace: DSN does not have #{k} (DSN=#{dsn.inspect})) unless v
+        raise ArgumentError, %(uptrace: DSN does not have #{k} (DSN=#{dsn.inspect})) if v.nil? || v.empty?
       end
     end
 

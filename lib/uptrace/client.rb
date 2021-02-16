@@ -22,11 +22,13 @@ module Uptrace
         @cfg.dsn = 'https://TOKEN@api.uptrace.dev/PROJECT_ID'
       end
 
-      setup_tracing
+      setup_tracing unless @cfg.disabled
     end
 
     # @param [optional Numeric] timeout An optional timeout in seconds.
     def shutdown(timeout: nil)
+      return if @cfg.disabled
+
       OpenTelemetry.tracer_provider.shutdown(timeout: timeout)
     end
 

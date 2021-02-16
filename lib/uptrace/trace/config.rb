@@ -19,7 +19,7 @@ module Uptrace
       attr_accessor :disabled
 
       def initialize
-        @dsn = ENV.fetch('UPTRACE_DSN')
+        @dsn = ENV.fetch('UPTRACE_DSN', '')
       end
 
       def dsno
