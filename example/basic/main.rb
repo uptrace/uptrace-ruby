@@ -6,6 +6,8 @@ require 'bundler/setup'
 require 'uptrace'
 
 client = Uptrace::Client.new do |c|
+  # copy your project DSN here or use UPTRACE_DSN env var
+  # c.dsn = ''
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
 end
