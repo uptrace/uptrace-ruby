@@ -79,18 +79,21 @@ module Uptrace
           endTime: as_unix_nano(span.end_timestamp),
 
           resource: uptrace_resource(span.resource),
-          attrs: span.attributes,
-
-          statusCode: status_code_as_str(span.status.code),
-          statusMessage: span.status.description,
-
-          tracer: uptrace_tracer(span.instrumentation_library)
+          attrs: span.attributes
         }
 
-        out['parentId'] = span.parent_span_id.unpack1('Q') if span.parent_span_id
+        out[:parentId] = span.parent_span_id.unpack1('Q') if span.parent_span_id
 
-        out['events'] = uptrace_events(span.events) unless span.events.nil?
-        out['links'] = uptrace_links(span.links) unless span.links.nil?
+        out[:events] = uptrace_events(span.events) unless span.events.nil?
+        out[:links] = uptrace_links(span.links) unless span.links.nil?
+
+        status = span.status
+        out[:statusCode] = status_code_as_str(status.code)
+        out[:statusMessage] = status.description unless status.description.empty?
+
+        il = span.instrumentation_library
+        out[:tracerName] = il.name
+        out[:tracerVersion] = il.name unless il.version.empty?
 
         out
       end
@@ -215,17 +218,6 @@ module Uptrace
           )
         end
         out
-      end
-
-      ##
-      # @param [OpenTelemetry::SDK::InstrumentationLibrary] il
-      # @return [Hash]
-      #
-      def uptrace_tracer(il)
-        {
-          name: il.name,
-          version: il.version
-        }
       end
     end
   end
