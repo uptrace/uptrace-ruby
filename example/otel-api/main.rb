@@ -16,11 +16,11 @@ end
 
 # Create a tracer.
 
-tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
+tracer = OpenTelemetry.tracer_provider.tracer('app_or_gem_name', '0.1.0')
 
 # Start a span and set some attributes.
 
-tracer.in_span('main') do |span|
+tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
   span.set_attribute('key1', 'value1')
   span.set_attribute('key1', 123.456)
 
@@ -39,40 +39,36 @@ tracer.in_span('main') do |span|
     OpenTelemetry::Trace::Status::ERROR,
     description: 'error description'
   )
+
+  if span.recording?
+    # Conditionally record some expensive data.
+  end
 end
 
-# Active span logic.
-puts('------------------------------------------------------------')
+# Current span logic.
 
 tracer.in_span('main') do |main|
-  raise ArgumentError, 'not reached' unless OpenTelemetry::Trace.current_span == main
+  puts('main is active') if OpenTelemetry::Trace.current_span == main
 
-  puts('main is active')
-
-  tracer.in_span('main') do |child|
-    raise ArgumentError, 'not reached' unless OpenTelemetry::Trace.current_span == child
-
-    puts('child is active')
+  tracer.in_span('child') do |child|
+    puts('child is active') if OpenTelemetry::Trace.current_span == child
   end
 
-  raise ArgumentError, 'not reached' unless OpenTelemetry::Trace.current_span == main
-
-  puts('main is active again')
+  puts('main is active again') if OpenTelemetry::Trace.current_span == main
 end
 
 # Start a span and activate it manually. Don't forget to finish the span.
-puts('------------------------------------------------------------')
 
 main = tracer.start_span(
   'main',
-  kind: OpenTelemetry::Trace::SpanKind::SERVER,
+  kind: OpenTelemetry::Trace::SpanKind::CLIENT,
   attributes: {
     foo: 'bar'
   }
 )
 
 OpenTelemetry::Trace.with_span(main) do |span|
-  puts(span == main)
+  puts('main is active (manually)') if OpenTelemetry::Trace.current_span == span
 end
 
 main.finish
