@@ -46,7 +46,12 @@ module Uptrace
       exp = Uptrace::Trace::Exporter.new(@cfg)
 
       OpenTelemetry::SDK.configure do |c|
-        bsp = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(exporter: exp, max_queue_size: 1000, max_export_batch_size: 1000, schedule_delay: 5_000)
+        bsp = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
+          exp,
+          max_queue_size: 1000,
+          max_export_batch_size: 1000,
+          schedule_delay: 5_000
+        )
         c.add_span_processor(bsp)
 
         c.service_name = @cfg.service_name

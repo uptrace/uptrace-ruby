@@ -25,7 +25,7 @@ tracer.in_span('main') do |span|
     child2.set_attribute('key3', 123.456)
   end
 
-  puts(client.trace_url(span))
+  puts("trace URL: #{client.trace_url(span)}")
 end
 
 client.shutdown

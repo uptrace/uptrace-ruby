@@ -5,6 +5,17 @@ require 'rubygems'
 require 'bundler/setup'
 require 'uptrace'
 
+# Create Uptrace client which configures OpenTemetry SDK to export spans to Uptrace.
+
+_client = Uptrace::Client.new do |c|
+  # copy your project DSN here or use UPTRACE_DSN env var
+  # c.dsn = ''
+  c.service_name = 'myservice'
+  c.service_version = '1.0.0'
+end
+
+# Create a tracer.
+
 tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
 
 # Start a span and set some attributes.
