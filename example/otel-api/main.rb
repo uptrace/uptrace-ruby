@@ -14,34 +14,31 @@ _client = Uptrace::Client.new do |c|
   c.service_version = '1.0.0'
 end
 
-# Create a tracer.
-
 tracer = OpenTelemetry.tracer_provider.tracer('app_or_gem_name', '0.1.0')
 
 # Start a span and set some attributes.
 
 tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
-  span.set_attribute('key1', 'value1')
-  span.set_attribute('key1', 123.456)
-
-  span.add_event(
-    name: 'log',
-    attributes: {
-      'log.severity': 'error',
-      'log.message': 'User not found',
-      'enduser.id': '123'
-    }
-  )
-
-  span.record_exception(ArgumentError.new('error1'))
-
-  span.status = OpenTelemetry::Trace::Status.new(
-    OpenTelemetry::Trace::Status::ERROR,
-    description: 'error description'
-  )
-
+  # Conditionally record some expensive data.
   if span.recording?
-    # Conditionally record some expensive data.
+    span.set_attribute('key1', 'value1')
+    span.set_attribute('key1', 123.456)
+
+    span.add_event(
+      name: 'log',
+      attributes: {
+        'log.severity': 'error',
+        'log.message': 'User not found',
+        'enduser.id': '123'
+      }
+    )
+
+    span.record_exception(ArgumentError.new('error1'))
+
+    span.status = OpenTelemetry::Trace::Status.new(
+      OpenTelemetry::Trace::Status::ERROR,
+      description: 'error description'
+    )
   end
 end
 

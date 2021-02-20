@@ -37,7 +37,7 @@ module Uptrace
       dsn = @cfg.dsno
       host = dsn.host.delete_prefix('api.')
       trace_id = span.context.hex_trace_id
-      "#{dsn.scheme}://#{host}/#{dsn.project_id}/search?q=#{trace_id}"
+      "#{dsn.scheme}://#{host}/search/#{dsn.project_id}?q=#{trace_id}"
     end
 
     private
