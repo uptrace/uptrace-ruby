@@ -35,4 +35,5 @@ tracer.in_span('main') do |span|
   puts("trace id: #{span.context.hex_trace_id}")
 end
 
+# Flush the buffers.
 span_processor.shutdown
