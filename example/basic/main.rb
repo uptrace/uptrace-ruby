@@ -28,4 +28,4 @@ tracer.in_span('main') do |span|
   puts("trace URL: #{client.trace_url(span)}")
 end
 
-client.shutdown
+client.close

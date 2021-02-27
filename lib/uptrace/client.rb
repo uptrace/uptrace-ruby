@@ -26,7 +26,7 @@ module Uptrace
     end
 
     # @param [optional Numeric] timeout An optional timeout in seconds.
-    def shutdown(timeout: nil)
+    def close(timeout: nil)
       return if @cfg.disabled
 
       OpenTelemetry.tracer_provider.shutdown(timeout: timeout)
