@@ -18,10 +18,6 @@ module Uptrace
       # @return [boolean] disables the exporter.
       attr_accessor :disabled
 
-      def initialize
-        @dsn = ENV.fetch('UPTRACE_DSN', '')
-      end
-
       def dsno
         @dsno ||= DSN.new(@dsn)
       end

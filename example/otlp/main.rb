@@ -6,6 +6,7 @@ require 'opentelemetry/exporter/otlp'
 
 exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
   endpoint: 'https://otlp.uptrace.dev/v1/traces',
+  # Set the Uptrace token here or use UPTRACE_TOKEN env var.
   headers: { 'uptrace-token': ENV.fetch('UPTRACE_TOKEN') },
   compression: 'gzip'
 )
@@ -16,6 +17,9 @@ span_processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
 )
 
 OpenTelemetry::SDK.configure do |c|
+  c.service_name = 'myservice'
+  c.service_version = '1.0.0'
+
   c.add_span_processor(span_processor)
 end
 

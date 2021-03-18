@@ -13,16 +13,16 @@ module Uptrace
       @cfg = Uptrace::Trace::Config.new
       yield @cfg if block_given?
 
+      @cfg.dsn = ENV.fetch('UPTRACE_DSN', '') if @cfg.dsn.nil? || @cfg.dsn.empty?
+
       begin
         @cfg.dsno
       rescue ArgumentError => e
-        Uptrace.logger.error(e.message)
+        Uptrace.logger.error("Uptrace is disabled: #{e.message}")
         @cfg.disabled = true
 
         @cfg.dsn = 'https://TOKEN@api.uptrace.dev/PROJECT_ID'
       end
-
-      setup_tracing unless @cfg.disabled
     end
 
     # @param [optional Numeric] timeout An optional timeout in seconds.
@@ -40,23 +40,14 @@ module Uptrace
       "#{dsn.scheme}://#{host}/search/#{dsn.project_id}?q=#{trace_id}"
     end
 
-    private
-
-    def setup_tracing
+    def span_processor
       exp = Uptrace::Trace::Exporter.new(@cfg)
-
-      OpenTelemetry::SDK.configure do |c|
-        bsp = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
-          exp,
-          max_queue_size: 1000,
-          max_export_batch_size: 1000,
-          schedule_delay: 5_000
-        )
-        c.add_span_processor(bsp)
-
-        c.service_name = @cfg.service_name
-        c.service_version = @cfg.service_version
-      end
+      OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
+        exp,
+        max_queue_size: 1000,
+        max_export_batch_size: 1000,
+        schedule_delay: 5_000
+      )
     end
   end
 end

@@ -7,11 +7,16 @@ require 'uptrace'
 
 # Create Uptrace client which configures OpenTemetry SDK to export spans to Uptrace.
 
-_client = Uptrace::Client.new do |c|
+upclient = Uptrace::Client.new do |c|
   # copy your project DSN here or use UPTRACE_DSN env var
   # c.dsn = ''
+end
+
+OpenTelemetry::SDK.configure do |c|
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
+
+  c.add_span_processor(upclient.span_processor)
 end
 
 tracer = OpenTelemetry.tracer_provider.tracer('app_or_gem_name', '0.1.0')
@@ -22,7 +27,7 @@ tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
   # Conditionally record some expensive data.
   if span.recording?
     span.set_attribute('key1', 'value1')
-    span.set_attribute('key1', 123.456)
+    span.set_attribute('key2', 123.456)
 
     span.add_event(
       name: 'log',
@@ -60,7 +65,7 @@ main = tracer.start_span(
   'main',
   kind: OpenTelemetry::Trace::SpanKind::CLIENT,
   attributes: {
-    foo: 'bar'
+    'foo' => 'bar'
   }
 )
 
