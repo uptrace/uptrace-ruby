@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+require 'rubygems'
+require 'bundler/setup'
 require 'action_controller/railtie'
 require 'opentelemetry-instrumentation-rails'
 require 'uptrace'

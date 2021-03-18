@@ -32,9 +32,9 @@ tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
     span.add_event(
       name: 'log',
       attributes: {
-        'log.severity': 'error',
-        'log.message': 'User not found',
-        'enduser.id': '123'
+        'log.severity' => 'error',
+        'log.message' => 'User not found',
+        'enduser.id' => '123'
       }
     )
 
