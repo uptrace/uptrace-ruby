@@ -6,5 +6,4 @@ module Uptrace
   end
 end
 
-require 'uptrace/trace/config'
 require 'uptrace/trace/exporter'
