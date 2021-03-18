@@ -22,18 +22,14 @@ class TraceRequestApp < Rails::Application
   Rails.logger  = config.logger
 end
 
-upclient = Uptrace::Client.new do |c|
-  # copy your project DSN here or use UPTRACE_DSN env var
-  # c.dsn = ''
-end
-
 OpenTelemetry::SDK.configure do |c|
   c.use 'OpenTelemetry::Instrumentation::Rails'
 
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
 
-  c.add_span_processor(upclient.span_processor)
+  # copy your project DSN here or use UPTRACE_DSN env var
+  Uptrace.configure_tracing(c, dsn: '')
 end
 
 Rails.application.initialize!

@@ -5,43 +5,35 @@ require 'opentelemetry/sdk'
 module Uptrace
   # Uptrace client that configures OpenTelemetry SDK to use Uptrace exporter.
   class Client
-    ##
-    # @yieldparam config [Uptrace::Config]
-    # @return [void]
-    #
-    def initialize
-      @cfg = Uptrace::Trace::Config.new
-      yield @cfg if block_given?
-
-      @cfg.dsn = ENV.fetch('UPTRACE_DSN', '') if @cfg.dsn.nil? || @cfg.dsn.empty?
+    # @param [string] dsn
+    def initialize(dsn: '')
+      dsn = ENV.fetch('UPTRACE_DSN', '') if dsn.empty?
 
       begin
-        @cfg.dsno
+        @dsn = DSN.new(dsn)
       rescue ArgumentError => e
         Uptrace.logger.error("Uptrace is disabled: #{e.message}")
-        @cfg.disabled = true
+        @disabled = true
 
-        @cfg.dsn = 'https://TOKEN@api.uptrace.dev/PROJECT_ID'
+        @dsn = DSN.new('https://TOKEN@api.uptrace.dev/PROJECT_ID')
       end
     end
 
-    # @param [optional Numeric] timeout An optional timeout in seconds.
-    def close(timeout: nil)
-      return if @cfg.disabled
-
-      OpenTelemetry.tracer_provider.shutdown(timeout: timeout)
+    def disabled?
+      @disabled
     end
 
-    # @return [OpenTelemetry::Trace::Span]
+    # @param [OpenTelemetry::Trace::Span] span
+    # @return [String]
     def trace_url(span)
-      dsn = @cfg.dsno
-      host = dsn.host.delete_prefix('api.')
+      host = @dsn.host.delete_prefix('api.')
       trace_id = span.context.hex_trace_id
-      "#{dsn.scheme}://#{host}/search/#{dsn.project_id}?q=#{trace_id}"
+      "#{@dsn.scheme}://#{host}/search/#{@dsn.project_id}?q=#{trace_id}"
     end
 
+    # @return [OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor]
     def span_processor
-      exp = Uptrace::Trace::Exporter.new(@cfg)
+      exp = Uptrace::Trace::Exporter.new(@dsn)
       OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
         exp,
         max_queue_size: 1000,

@@ -5,16 +5,12 @@ require 'rubygems'
 require 'bundler/setup'
 require 'uptrace'
 
-upclient = Uptrace::Client.new do |c|
-  # copy your project DSN here or use UPTRACE_DSN env var
-  # c.dsn = ''
-end
-
 OpenTelemetry::SDK.configure do |c|
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
 
-  c.add_span_processor(upclient.span_processor)
+  # copy your project DSN here or use UPTRACE_DSN env var
+  Uptrace.configure_tracing(c, dsn: '')
 end
 
 tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
@@ -30,7 +26,7 @@ tracer.in_span('main') do |span|
     child2.set_attribute('key3', 123.456)
   end
 
-  puts("trace URL: #{upclient.trace_url(span)}")
+  puts("trace URL: #{Uptrace.trace_url(span)}")
 end
 
-upclient.close
+OpenTelemetry.tracer_provider.shutdown

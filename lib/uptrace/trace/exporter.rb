@@ -20,13 +20,11 @@ module Uptrace
       ##
       # @param [Config] cfg
       #
-      def initialize(cfg)
-        @cfg = cfg
+      def initialize(dsn)
+        @dsn = dsn
+        @endpoint = "/api/v1/tracing/#{@dsn.project_id}/spans"
 
-        dsn = @cfg.dsno
-        @endpoint = "/api/v1/tracing/#{dsn.project_id}/spans"
-
-        @http = Net::HTTP.new(dsn.host, 443)
+        @http = Net::HTTP.new(@dsn.host, 443)
         @http.use_ssl = true
         @http.open_timeout = 5
         @http.read_timeout = 5
@@ -133,7 +131,7 @@ module Uptrace
         data = Zstd.compress(data, 3)
 
         req = Net::HTTP::Post.new(@endpoint)
-        req.add_field('Authorization', "Bearer #{@cfg.dsno.token}")
+        req.add_field('Authorization', "Bearer #{@dsn.token}")
         req.add_field('Content-Type', 'application/msgpack')
         req.add_field('Content-Encoding', 'zstd')
         req.add_field('Connection', 'keep-alive')
