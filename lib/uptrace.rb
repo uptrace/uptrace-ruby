@@ -20,14 +20,10 @@ module Uptrace
     client.trace_url(span)
   end
 
-  def configure_tracing(c, dsn: '')
-    upclient = if dsn.empty?
-                 client
-               else
-                 Client.new(dsn: dsn)
-               end
+  def configure_opentelemetry(c, dsn: '')
+    @client = Client.new(dsn: dsn) unless dsn.empty?
 
-    c.add_span_processor(upclient.span_processor) unless upclient.disabled?
+    c.add_span_processor(client.span_processor) unless client.disabled?
   end
 end
 

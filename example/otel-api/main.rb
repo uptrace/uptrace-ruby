@@ -10,7 +10,7 @@ OpenTelemetry::SDK.configure do |c|
   c.service_version = '1.0.0'
 
   # copy your project DSN here or use UPTRACE_DSN env var
-  Uptrace.configure_tracing(c, dsn: '')
+  Uptrace.configure_opentelemetry(c, dsn: '')
 end
 
 tracer = OpenTelemetry.tracer_provider.tracer('app_or_gem_name', '0.1.0')
