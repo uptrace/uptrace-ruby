@@ -1,6 +1,6 @@
 # Uptrace Ruby exporter for OpenTelemetry
 
-[![Build Status](https://travis-ci.org/uptrace/uptrace-ruby.svg?branch=master)](https://travis-ci.org/uptrace/uptrace-ruby)
+![build workflow](https://github.com/uptrace/uptrace-ruby/actions/workflows/build.yml/badge.svg)
 [![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://docs.uptrace.dev/ruby/)
 
 <a href="https://docs.uptrace.dev/ruby/">
