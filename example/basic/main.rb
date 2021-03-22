@@ -30,4 +30,5 @@ tracer.in_span('main') do |span|
   puts("trace URL: #{Uptrace.trace_url(span)}")
 end
 
+# Send buffered spans.
 OpenTelemetry.tracer_provider.shutdown

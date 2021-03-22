@@ -3,5 +3,5 @@
 To run this example:
 
 ```bash
-UPTRACE_DSN="https://<key>@uptrace.dev/<project_id>" ./main.rb
+UPTRACE_DSN="https://<key>@api.uptrace.dev/<project_id>" ./main.rb
 ```
