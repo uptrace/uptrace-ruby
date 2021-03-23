@@ -16,5 +16,7 @@ Metrics/MethodLength:
   Enabled: false
 Style/ModuleFunction:
   Enabled: false
+Style/GuardClause:
+  Enabled: false
 Naming/MethodParameterName:
   MinNameLength: 1

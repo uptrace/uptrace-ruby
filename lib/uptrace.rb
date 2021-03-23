@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'logger'
+require 'opentelemetry'
 
 # Uptrace provides Uptrace exporters for OpenTelemetry.
 module Uptrace
@@ -22,10 +23,28 @@ module Uptrace
     client.trace_url(span)
   end
 
+  # ConfigureOpentelemetry configures OpenTelemetry to export data to Uptrace.
+  # By default it:
+  #   - creates tracer provider;
+  #   - registers Uptrace span exporter;
+  #   - sets tracecontext + baggage composite context propagator.
+  #
+  # @param [OpenTelemetry::SDK::Configurator] c
   def configure_opentelemetry(c, dsn: '')
     @client = Client.new(dsn: dsn) unless dsn.empty?
 
     c.add_span_processor(client.span_processor) unless client.disabled?
+
+    if OpenTelemetry.propagation.nil?
+      c.injectors = [
+        OpenTelemetry::Trace::Propagation::TraceContext.text_map_injector,
+        OpenTelemetry::Baggage::Propagation.text_map_injector
+      ]
+      c.extractors = [
+        OpenTelemetry::Trace::Propagation::TraceContext.text_map_extractor,
+        OpenTelemetry::Baggage::Propagation.text_map_extractor
+      ]
+    end
   end
 end
 
