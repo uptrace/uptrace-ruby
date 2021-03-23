@@ -37,6 +37,7 @@ class TraceRequestApp < Rails::Application
   end
 end
 
+# ExampleController
 class ExampleController < ActionController::Base
   include Rails.application.routes.url_helpers
 
