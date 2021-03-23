@@ -25,7 +25,7 @@ module Uptrace
 
       KEYS.each do |k|
         v = public_send(k)
-        raise ArgumentError, %(DSN does not have #{k} (DSN=#{dsn.inspect})) if v.nil? || v.empty?
+        raise ArgumentError, %(DSN=#{dsn.inspect} does not have a #{k}) if v.nil? || v.empty?
       end
     end
 

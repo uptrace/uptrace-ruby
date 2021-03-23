@@ -16,7 +16,9 @@ module Uptrace
     @client ||= Client.new
   end
 
-  def trace_url(span)
+  # @param [optional OpenTelemetry::Trace::Span] span
+  # @return [String]
+  def trace_url(span = nil)
     client.trace_url(span)
   end
 

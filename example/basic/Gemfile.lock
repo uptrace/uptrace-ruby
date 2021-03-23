@@ -1,21 +1,21 @@
 PATH
   remote: ../..
   specs:
-    uptrace (0.2.5)
+    uptrace (0.2.6)
       msgpack (~> 1.3)
-      opentelemetry-sdk (~> 0.15.0)
+      opentelemetry-sdk (~> 0.16.0)
       zstd-ruby (~> 1.4.5.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     msgpack (1.4.2)
-    opentelemetry-api (0.15.0)
-    opentelemetry-common (0.15.0)
-      opentelemetry-api (~> 0.15.0)
-    opentelemetry-sdk (0.15.0)
-      opentelemetry-api (~> 0.15.0)
-      opentelemetry-common (~> 0.15.0)
+    opentelemetry-api (0.16.0)
+    opentelemetry-common (0.16.0)
+      opentelemetry-api (~> 0.16.0)
+    opentelemetry-sdk (0.16.0)
+      opentelemetry-api (~> 0.16.0)
+      opentelemetry-common (~> 0.16.0)
     zstd-ruby (1.4.5.0)
 
 PLATFORMS

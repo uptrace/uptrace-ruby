@@ -51,6 +51,15 @@ module Uptrace
         send({ spans: out }, timeout: timeout)
       end
 
+      # Called when {OpenTelemetry::SDK::Trace::TracerProvider#force_flush} is called, if
+      # this exporter is registered to a {OpenTelemetry::SDK::Trace::TracerProvider}
+      # object.
+      #
+      # @param [optional Numeric] timeout An optional timeout in seconds.
+      def force_flush(timeout: nil) # rubocop:disable Lint/UnusedMethodArgument
+        SUCCESS
+      end
+
       # Called when {OpenTelemetry::SDK::Trace::Tracer#shutdown} is called, if
       # this exporter is registered to a {OpenTelemetry::SDK::Trace::Tracer}
       # object.
@@ -59,6 +68,7 @@ module Uptrace
       def shutdown(timeout: nil) # rubocop:disable Lint/UnusedMethodArgument
         @shutdown = true
         @http.finish if @http.started?
+        SUCCESS
       end
 
       private

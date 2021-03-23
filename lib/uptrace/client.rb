@@ -23,9 +23,11 @@ module Uptrace
       @disabled
     end
 
-    # @param [OpenTelemetry::Trace::Span] span
+    # @param [optional OpenTelemetry::Trace::Span] span
     # @return [String]
-    def trace_url(span)
+    def trace_url(span = nil)
+      span = OpenTelemetry::Trace.current_span if span.nil?
+
       host = @dsn.host.delete_prefix('api.')
       trace_id = span.context.hex_trace_id
       "#{@dsn.scheme}://#{host}/search/#{@dsn.project_id}?q=#{trace_id}"
