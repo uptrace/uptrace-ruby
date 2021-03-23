@@ -30,12 +30,12 @@ describe Uptrace::DSN do
 
     it 'rejects invalid DSN' do
       err = _(proc { DSN.new('_') }).must_raise(ArgumentError)
-      _(err.message).must_match(/DSN does not have scheme/)
+      _(err.message).must_match(/DSN="_" does not have a scheme/)
     end
 
     it 'rejects DSN without a token' do
       err = _(proc { DSN.new('https://api.uptrace.dev/PROJECT_ID') }).must_raise(ArgumentError)
-      _(err.message).must_match(/DSN does not have token/)
+      _(err.message).must_match(%r{DSN="https://api.uptrace.dev/PROJECT_ID" does not have a token})
     end
   end
 end
