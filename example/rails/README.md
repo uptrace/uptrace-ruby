@@ -16,4 +16,4 @@ Then open http://localhost:9292/
 ## Documentation
 
 See
-(opentelemetry-instrumentation-rails)[https://github.com/open-telemetry/opentelemetry-ruby/tree/main/instrumentation/rails].
+[opentelemetry-instrumentation-rails](https://github.com/open-telemetry/opentelemetry-ruby/tree/main/instrumentation/rails).
