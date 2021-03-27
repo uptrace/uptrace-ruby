@@ -8,8 +8,8 @@ require 'opentelemetry/exporter/otlp'
 
 exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
   endpoint: 'https://otlp.uptrace.dev/v1/traces',
-  # Set the Uptrace token here or use UPTRACE_TOKEN env var.
-  headers: { 'uptrace-token': ENV.fetch('UPTRACE_TOKEN') },
+  # Set the Uptrace DSN here or use UPTRACE_DSN env var.
+  headers: { 'uptrace-dsn': ENV.fetch('UPTRACE_DSN') },
   compression: 'gzip'
 )
 span_processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
@@ -41,5 +41,5 @@ tracer.in_span('main') do |span|
   puts("trace id: #{span.context.hex_trace_id}")
 end
 
-# Flush the buffers.
+# Send buffered spans.
 span_processor.shutdown
