@@ -5,13 +5,11 @@ require 'rubygems'
 require 'bundler/setup'
 require 'uptrace'
 
-OpenTelemetry::SDK.configure do |c|
+# Copy your project DSN here or use UPTRACE_DSN env var.
+Uptrace.configure_opentelemetry(dsn: '') do |c|
+  # c is OpenTelemetry::SDK::Configurator
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
-
-  # Configure OpenTelemetry to export data to Uptrace.
-  # Copy your project DSN here or use UPTRACE_DSN env var.
-  Uptrace.configure_opentelemetry(c, dsn: '')
 end
 
 tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')

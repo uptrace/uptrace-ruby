@@ -10,14 +10,12 @@ require 'action_controller/railtie'
 require 'opentelemetry-instrumentation-rails'
 require 'uptrace'
 
-OpenTelemetry::SDK.configure do |c|
+# copy your project DSN here or use UPTRACE_DSN env var
+Uptrace.configure_opentelemetry(dsn: '') do |c|
   c.use 'OpenTelemetry::Instrumentation::Rails'
 
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
-
-  # copy your project DSN here or use UPTRACE_DSN env var
-  Uptrace.configure_opentelemetry(c, dsn: '')
 end
 
 # TraceRequestApp is a minimal Rails application inspired by the Rails

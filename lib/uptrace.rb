@@ -25,11 +25,16 @@ module Uptrace
   # ConfigureOpentelemetry configures OpenTelemetry to export data to Uptrace.
   # Specifically it configures and registers Uptrace span exporter.
   #
-  # @param [OpenTelemetry::SDK::Configurator] c
-  def configure_opentelemetry(c, dsn: '')
-    @client = Client.new(dsn: dsn) unless dsn.empty?
+  # @param [optional String] dsn
+  # @yieldparam [OpenTelemetry::SDK::Configurator] c Yields a configurator to the
+  #   provided block
+  def configure_opentelemetry(dsn: '')
+    OpenTelemetry::SDK.configure do |c|
+      @client = Client.new(dsn: dsn) unless dsn.empty?
+      c.add_span_processor(client.span_processor) unless client.disabled?
 
-    c.add_span_processor(client.span_processor) unless client.disabled?
+      yield c if block_given?
+    end
   end
 end
 
