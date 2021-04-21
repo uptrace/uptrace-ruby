@@ -31,7 +31,7 @@ class TraceRequestApp < Rails::Application
 
   routes.append do
     get '/', to: 'example#index'
-    get '/profiles/:username', to: 'example#profile', as: 'profile'
+    get '/hello/:username', to: 'example#hello', as: 'hello'
   end
 end
 
@@ -45,20 +45,20 @@ class ExampleController < ActionController::Base
       <html>
         <p>Here are some routes for you:</p>
         <ul>
-          <li><%= link_to 'Hello world', profile_path(username: 'world') %></li>
-          <li><%= link_to 'Hello foo-bar', profile_path(username: 'foo-bar') %></li>
+          <li><%= link_to 'Hello world', hello_path(username: 'world') %></li>
+          <li><%= link_to 'Hello foo-bar', hello_path(username: 'foo-bar') %></li>
         </ul>
-        <p><a href="#{trace_url}">#{trace_url}</a></p>
+        <p><a href="#{trace_url}">View trace</a></p>
       </html>
     )
   end
 
-  def profile
+  def hello
     trace_url = Uptrace.trace_url()
     render inline: %(
       <html>
         <h3>Hello #{params[:username]}</h3>
-        <p><a href="#{trace_url}">#{trace_url}</a></p>
+        <p><a href="#{trace_url}">View trace</a></p>
       </html>
     )
   end

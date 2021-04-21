@@ -3,15 +3,19 @@
 ## Example
 
 This example demonstrates how to instrument Rails application using OpenTelemetry and configure
-OpenTelemetry to export data to Uptrace. To run this example:
+OpenTelemetry to export data to Uptrace.
+
+Install dependencies:
 
 ```shell
 bundle install
-bundle run rackup main.ru
-rackup main.ru
 ```
 
-Then open http://localhost:9292/
+Start the server and open [http://localhost:9292/](http://localhost:9292/):
+
+```shell
+UPTRACE_DSN="https://<token>@api.uptrace.dev/<project_id>" rackup main.ru
+```
 
 ## Documentation
 
