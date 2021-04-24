@@ -2,29 +2,32 @@ PATH
   remote: .
   specs:
     uptrace (0.16.2)
-      msgpack (~> 1.3)
-      opentelemetry-sdk (~> 0.16.0)
-      zstd-ruby (~> 1.4.5.0)
+      msgpack (~> 1.4.2)
+      opentelemetry-sdk (~> 0.17.0)
+      zstd-ruby (~> 1.4.9.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    minitest (5.14.3)
+    minitest (5.14.4)
     msgpack (1.4.2)
-    opentelemetry-api (0.16.0)
-    opentelemetry-common (0.16.0)
-      opentelemetry-api (~> 0.16.0)
-    opentelemetry-sdk (0.16.0)
-      opentelemetry-api (~> 0.16.0)
-      opentelemetry-common (~> 0.16.0)
+    opentelemetry-api (0.17.0)
+    opentelemetry-common (0.17.0)
+      opentelemetry-api (~> 0.17.0)
+    opentelemetry-instrumentation-base (0.17.0)
+      opentelemetry-api (~> 0.17.0)
+    opentelemetry-sdk (0.17.0)
+      opentelemetry-api (~> 0.17.0)
+      opentelemetry-common (~> 0.17.0)
+      opentelemetry-instrumentation-base (~> 0.17.0)
     parallel (1.20.1)
-    parser (3.0.0.0)
+    parser (3.0.1.0)
       ast (~> 2.4.1)
     rainbow (3.0.0)
     rake (12.3.3)
-    regexp_parser (2.0.3)
-    rexml (3.2.4)
+    regexp_parser (2.1.1)
+    rexml (3.2.5)
     rubocop (1.10.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
@@ -46,7 +49,7 @@ GEM
     yard-doctest (0.1.17)
       minitest
       yard
-    zstd-ruby (1.4.5.0)
+    zstd-ruby (1.4.9.0)
 
 PLATFORMS
   ruby
