@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://docs.uptrace.dev/ruby/)
 
 <a href="https://docs.uptrace.dev/ruby/">
-  <img src="https://docs.uptrace.dev/devicons/ruby-original.svg" height="200px" />
+  <img src="https://docs.uptrace.dev/devicon/ruby-original.svg" height="200px" />
 </a>
 
 ## Introduction
