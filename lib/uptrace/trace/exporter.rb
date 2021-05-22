@@ -83,8 +83,8 @@ module Uptrace
 
           name: span.name,
           kind: kind_as_str(span.kind),
-          startTime: as_unix_nano(span.start_timestamp),
-          endTime: as_unix_nano(span.end_timestamp),
+          startTime: span.start_timestamp,
+          endTime: span.end_timestamp,
 
           resource: uptrace_resource(span.resource),
           attrs: span.attributes
@@ -168,14 +168,6 @@ module Uptrace
       end
 
       ##
-      # @param [Integer] timestamp
-      # @return [Integer]
-      #
-      def as_unix_nano(timestamp)
-        (timestamp.to_r * 1_000_000_000).to_i
-      end
-
-      ##
       # @param [Integer] code
       # @return [String]
       #
@@ -207,7 +199,7 @@ module Uptrace
             {
               name: event.name,
               attrs: event.attributes,
-              time: as_unix_nano(event.timestamp)
+              time: event.timestamp
             }
           )
         end
