@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    uptrace (0.17.0)
+    uptrace (1.0.0.rc1)
       msgpack (~> 1.4.2)
       opentelemetry-sdk (~> 1.0.0.rc1)
       zstd-ruby (~> 1.4.9.0)

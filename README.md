@@ -59,4 +59,5 @@ end
 OpenTelemetry.tracer_provider.shutdown
 ```
 
-Please see [uptrace-ruby documentation](https://docs.uptrace.dev/ruby/) for more details.
+For more details, please see [documentation](https://docs.uptrace.dev/ruby/) and
+[examples](example).
