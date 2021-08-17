@@ -12,7 +12,7 @@ require 'uptrace'
 
 # copy your project DSN here or use UPTRACE_DSN env var
 Uptrace.configure_opentelemetry(dsn: '') do |c|
-  c.use 'OpenTelemetry::Instrumentation::Rails'
+  c.use_all
 
   c.service_name = 'myservice'
   c.service_version = '1.0.0'

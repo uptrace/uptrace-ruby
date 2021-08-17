@@ -2,27 +2,34 @@ PATH
   remote: .
   specs:
     uptrace (1.0.0.rc1)
-      msgpack (~> 1.4.2)
-      opentelemetry-sdk (~> 1.0.0.rc1)
-      zstd-ruby (~> 1.4.9.0)
+      opentelemetry-exporter-otlp (~> 0.20.2)
+      opentelemetry-sdk (~> 1.0.0.rc3)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    google-protobuf (3.17.3)
     minitest (5.14.4)
-    msgpack (1.4.2)
-    opentelemetry-api (1.0.0.rc1)
-    opentelemetry-common (0.18.0)
-      opentelemetry-api (~> 1.0.0.rc1)
-    opentelemetry-instrumentation-base (0.18.0)
-      opentelemetry-api (~> 1.0.0.rc1)
-    opentelemetry-sdk (1.0.0.rc1)
-      opentelemetry-api (~> 1.0.0.rc1)
-      opentelemetry-common (~> 0.18.0)
-      opentelemetry-instrumentation-base (~> 0.18.0)
+    opentelemetry-api (1.0.0.rc3)
+    opentelemetry-common (0.19.1)
+      opentelemetry-api (~> 1.0.0.rc3)
+    opentelemetry-exporter-otlp (0.20.2)
+      google-protobuf (~> 3.7)
+      opentelemetry-api (~> 1.0.0.rc3)
+      opentelemetry-common (~> 0.19.1)
+      opentelemetry-sdk (~> 1.0.0.rc2)
+    opentelemetry-instrumentation-base (0.18.2)
+      opentelemetry-api (~> 1.0.0.rc3)
+    opentelemetry-sdk (1.0.0.rc3)
+      opentelemetry-api (~> 1.0.0.rc3)
+      opentelemetry-common (~> 0.19.1)
+      opentelemetry-instrumentation-base (~> 0.18.2)
+      opentelemetry-semantic_conventions
+    opentelemetry-semantic_conventions (1.6.0)
+      opentelemetry-api (~> 1.0.0.rc3)
     parallel (1.20.1)
-    parser (3.0.1.0)
+    parser (3.0.2.0)
       ast (~> 2.4.1)
     rainbow (3.0.0)
     rake (12.3.3)
@@ -37,8 +44,8 @@ GEM
       rubocop-ast (>= 1.2.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.4.1)
-      parser (>= 2.7.1.5)
+    rubocop-ast (1.10.0)
+      parser (>= 3.0.1.1)
     rubocop-minitest (0.10.3)
       rubocop (>= 0.87, < 2.0)
     rubocop-rake (0.5.1)
@@ -49,7 +56,6 @@ GEM
     yard-doctest (0.1.17)
       minitest
       yard
-    zstd-ruby (1.4.9.0)
 
 PLATFORMS
   ruby

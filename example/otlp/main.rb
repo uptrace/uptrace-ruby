@@ -41,5 +41,5 @@ tracer.in_span('main') do |span|
   puts("trace id: #{span.context.hex_trace_id}")
 end
 
-# Send buffered spans.
-span_processor.shutdown
+# Send buffered spans and free resources.
+OpenTelemetry.tracer_provider.shutdown

@@ -2,6 +2,8 @@
 
 require 'logger'
 
+require 'opentelemetry/exporter/otlp'
+
 # Uptrace provides Uptrace exporters for OpenTelemetry.
 module Uptrace
   extend self
@@ -31,14 +33,30 @@ module Uptrace
   def configure_opentelemetry(dsn: '')
     OpenTelemetry::SDK.configure do |c|
       @client = Client.new(dsn: dsn) unless dsn.empty?
-      c.add_span_processor(client.span_processor) unless client.disabled?
+      c.add_span_processor(span_processor(@client.dsn.to_s)) unless client.disabled?
 
       yield c if block_given?
     end
+  end
+
+  private
+
+  def span_processor(dsn)
+    exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
+      endpoint: 'https://otlp.uptrace.dev/v1/traces',
+      # Set the Uptrace DSN here or use UPTRACE_DSN env var.
+      headers: { 'uptrace-dsn': dsn },
+      compression: 'gzip'
+    )
+    OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
+      exporter,
+      max_queue_size: 1000,
+      max_export_batch_size: 1000,
+      schedule_delay: 5_000
+    )
   end
 end
 
 require 'uptrace/version'
 require 'uptrace/dsn'
 require 'uptrace/client'
-require 'uptrace/trace'

@@ -2,5 +2,5 @@
 
 source 'https://rubygems.org'
 
-gem 'opentelemetry-exporter-otlp', '~> 0.17.0'
-gem 'opentelemetry-sdk', '~> 0.17.0'
+gem 'opentelemetry-exporter-otlp', '~> 0.20.2'
+gem 'opentelemetry-sdk', '~> 1.0.0.rc3'

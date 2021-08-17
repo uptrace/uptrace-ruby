@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0.rc3 - 2021-08-17
+
+- Updated OpenTelemetry to
+  [v1.0.0.rc3](https://github.com/open-telemetry/opentelemetry-ruby/blob/main/api/CHANGELOG.md#v100rc3--2021-08-12).
+- Switched to using OTLP protocol.
+
 ## v1.0.0.rc1 - 2021-05-22
 
 - Updated OpenTelemetry to
