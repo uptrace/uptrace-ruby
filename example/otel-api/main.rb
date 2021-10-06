@@ -32,9 +32,8 @@ tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
 
     span.record_exception(ArgumentError.new('error1'))
 
-    span.status = OpenTelemetry::Trace::Status.new(
-      OpenTelemetry::Trace::Status::ERROR,
-      description: 'error description'
+    span.status = OpenTelemetry::Trace::Status.error(
+      'error description'
     )
   end
 end

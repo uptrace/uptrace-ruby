@@ -25,13 +25,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.5.0'
 
-  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.20.2'
-  spec.add_dependency 'opentelemetry-sdk', '~> 1.0.0.rc3'
+  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.20.5'
+  spec.add_dependency 'opentelemetry-sdk', '~> 1.0.0'
 
   spec.add_development_dependency 'bundler', '~> 2.1.4'
   spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rubocop', '~> 1.10.0'
+  spec.add_development_dependency 'rubocop', '~> 1.12.0'
   spec.add_development_dependency 'rubocop-minitest', '~> 0.10.2'
   spec.add_development_dependency 'rubocop-rake', '~> 0.5.1'
   spec.add_development_dependency 'yard', '~> 0.9'

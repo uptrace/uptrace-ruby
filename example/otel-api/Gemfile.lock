@@ -1,22 +1,31 @@
 PATH
   remote: ../..
   specs:
-    uptrace (0.16.1)
-      msgpack (~> 1.3)
-      opentelemetry-sdk (~> 0.16.0)
-      zstd-ruby (~> 1.4.5.0)
+    uptrace (1.0.0.rc3)
+      opentelemetry-exporter-otlp (~> 0.20.5)
+      opentelemetry-sdk (~> 1.0.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    msgpack (1.4.2)
-    opentelemetry-api (0.16.0)
-    opentelemetry-common (0.16.0)
-      opentelemetry-api (~> 0.16.0)
-    opentelemetry-sdk (0.16.0)
-      opentelemetry-api (~> 0.16.0)
-      opentelemetry-common (~> 0.16.0)
-    zstd-ruby (1.4.5.0)
+    google-protobuf (3.18.1-x86_64-linux)
+    opentelemetry-api (1.0.0)
+    opentelemetry-common (0.19.2)
+      opentelemetry-api (~> 1.0)
+    opentelemetry-exporter-otlp (0.20.5)
+      google-protobuf (~> 3.7)
+      opentelemetry-api (~> 1.0)
+      opentelemetry-common (~> 0.19.2)
+      opentelemetry-sdk (~> 1.0)
+    opentelemetry-instrumentation-base (0.18.3)
+      opentelemetry-api (~> 1.0)
+    opentelemetry-sdk (1.0.0)
+      opentelemetry-api (~> 1.0)
+      opentelemetry-common (~> 0.19.2)
+      opentelemetry-instrumentation-base (~> 0.18.3)
+      opentelemetry-semantic_conventions
+    opentelemetry-semantic_conventions (1.6.1)
+      opentelemetry-api (~> 1.0)
 
 PLATFORMS
   x86_64-linux
