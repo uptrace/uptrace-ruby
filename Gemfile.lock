@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    uptrace (1.0.0.rc3)
+    uptrace (1.0.0)
       opentelemetry-exporter-otlp (~> 0.20.5)
       opentelemetry-sdk (~> 1.0.0)
 
@@ -9,7 +9,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    google-protobuf (3.18.1)
+    google-protobuf (3.18.1-x86_64-linux)
     minitest (5.14.4)
     opentelemetry-api (1.0.0)
     opentelemetry-common (0.19.2)
@@ -58,10 +58,10 @@ GEM
       yard
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
-  bundler (~> 2.1.4)
+  bundler (~> 2.2)
   minitest (~> 5.0)
   rake (~> 12.0)
   rubocop (~> 1.12.0)
@@ -72,4 +72,4 @@ DEPENDENCIES
   yard-doctest (~> 0.1.6)
 
 BUNDLED WITH
-   2.1.4
+   2.2.28

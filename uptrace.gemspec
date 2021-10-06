@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.20.5'
   spec.add_dependency 'opentelemetry-sdk', '~> 1.0.0'
 
-  spec.add_development_dependency 'bundler', '~> 2.1.4'
+  spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rubocop', '~> 1.12.0'
