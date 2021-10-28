@@ -1,7 +1,7 @@
 # Uptrace Ruby exporter for OpenTelemetry
 
 ![build workflow](https://github.com/uptrace/uptrace-ruby/actions/workflows/build.yml/badge.svg)
-[![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://docs.uptrace.dev/ruby/)
+[![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://docs.uptrace.dev/guide/ruby.html)
 
 <a href="https://docs.uptrace.dev/guide/ruby.html">
   <img src="https://docs.uptrace.dev/devicon/ruby-original.svg" height="200px" />
@@ -10,7 +10,7 @@
 ## Introduction
 
 uptrace-ruby is an OpenTelemery distribution configured to export
-[traces](https://docs.uptrace.dev/tracing/#spans) to Uptrace.
+[traces](https://opentelemetry.uptrace.dev/guide/distributed-tracing.html) to Uptrace.
 
 ## Quickstart
 
@@ -60,5 +60,8 @@ end
 OpenTelemetry.tracer_provider.shutdown
 ```
 
-For more details, please see [documentation](https://docs.uptrace.dev/ruby/) and
-[examples](example).
+## Links
+
+- [Examples](example)
+- [Documentation](https://docs.uptrace.dev/guide/ruby.html)
+- [Instrumentations](https://opentelemetry.uptrace.dev/instrumentations.html?lang=ruby)
