@@ -17,7 +17,7 @@ end
 tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
 
 # Create a root span (a trace) to measure some operation.
-tracer.in_span('main-operation') do |main|
+tracer.in_span('main-operation', kind: :client) do |main|
   tracer.in_span('child1-of-main') do |child1|
     child1.set_attribute('key1', 'value1')
     child1.record_exception(ArgumentError.new('error1'))

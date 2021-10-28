@@ -15,7 +15,7 @@ tracer = OpenTelemetry.tracer_provider.tracer('app_or_gem_name', '0.1.0')
 
 # Start a span and set some attributes.
 
-tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
+tracer.in_span('main', kind: :server) do |span|
   # Conditionally record some expensive data.
   if span.recording?
     span.set_attribute('key1', 'value1')
@@ -31,7 +31,6 @@ tracer.in_span('main', kind: OpenTelemetry::Trace::SpanKind::SERVER) do |span|
     )
 
     span.record_exception(ArgumentError.new('error1'))
-
     span.status = OpenTelemetry::Trace::Status.error(
       'error description'
     )
