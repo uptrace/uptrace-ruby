@@ -21,7 +21,9 @@ module Uptrace
   # @param [optional OpenTelemetry::Trace::Span] span
   # @return [String]
   def trace_url(span = nil)
-    client.trace_url(span)
+    span = OpenTelemetry::Trace.current_span if span.nil?
+    trace_id = span.context.hex_trace_id
+    "https://app.uptrace.dev/traces/#{trace_id}"
   end
 
   # ConfigureOpentelemetry configures OpenTelemetry to export data to Uptrace.
