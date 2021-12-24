@@ -16,10 +16,12 @@ describe Uptrace::DSN do
     _(dsn.token).must_equal('TOKEN')
 
     _(dsn.scheme).must_equal('https')
-    _(dsn.host).must_equal('api.uptrace.dev')
+    _(dsn.host).must_equal('uptrace.dev')
     _(dsn.port).must_equal(443)
 
     _(dsn.to_s).must_equal('https://TOKEN@api.uptrace.dev/PROJECT_ID')
+    _(dsn.app_addr).must_equal('https://app.uptrace.dev')
+    _(dsn.otlp_addr).must_equal('https://otlp.uptrace.dev')
   end
 
   describe '.new' do

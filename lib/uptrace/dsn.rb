@@ -3,9 +3,7 @@
 module Uptrace
   # Uptrace DSN
   class DSN
-    KEYS = %w[scheme host project_id token].freeze
-
-    attr_reader :dsn, :port, *KEYS
+    attr_reader :dsn, :scheme, :host, :port, :project_id, :token
 
     def initialize(dsn)
       raise ArgumentError, "DSN can't be empty" if dsn.empty?
@@ -17,13 +15,21 @@ module Uptrace
       end
 
       @dsn = dsn
-      @project_id = uri.path.delete_prefix('/')
-      @token = uri.user
+      @scheme = uri.scheme
       @host = uri.host
       @port = uri.port
-      @scheme = uri.scheme
+      @project_id = uri.path.delete_prefix('/')
+      @token = uri.user
 
-      KEYS.each do |k|
+      %w[scheme host].each do |k|
+        v = public_send(k)
+        raise ArgumentError, %(DSN=#{dsn.inspect} does not have a #{k}) if v.nil? || v.empty?
+      end
+
+      @host = 'uptrace.dev' if @host == 'api.uptrace.dev'
+      return if @host != 'uptrace.dev'
+
+      %w[project_id token].each do |k|
         v = public_send(k)
         raise ArgumentError, %(DSN=#{dsn.inspect} does not have a #{k}) if v.nil? || v.empty?
       end
@@ -31,6 +37,18 @@ module Uptrace
 
     def to_s
       @dsn
+    end
+
+    def app_addr
+      return 'https://app.uptrace.dev' if @host == 'uptrace.dev'
+
+      "#{@scheme}://#{@host}:#{@port}"
+    end
+
+    def otlp_addr
+      return 'https://otlp.uptrace.dev' if @host == 'uptrace.dev'
+
+      "#{@scheme}://#{@host}:#{@port}"
     end
   end
 end

@@ -24,5 +24,13 @@ module Uptrace
     def disabled?
       @disabled
     end
+
+    # @param [optional OpenTelemetry::Trace::Span] span
+    # @return [String]
+    def trace_url(span = nil)
+      span = OpenTelemetry::Trace.current_span if span.nil?
+      trace_id = span.context.hex_trace_id
+      "#{@dsn.app_addr}/traces/#{trace_id}"
+    end
   end
 end

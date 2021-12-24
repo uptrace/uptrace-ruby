@@ -20,3 +20,7 @@ Style/GuardClause:
   Enabled: false
 Naming/MethodParameterName:
   MinNameLength: 1
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false

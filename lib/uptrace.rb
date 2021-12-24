@@ -21,9 +21,7 @@ module Uptrace
   # @param [optional OpenTelemetry::Trace::Span] span
   # @return [String]
   def trace_url(span = nil)
-    span = OpenTelemetry::Trace.current_span if span.nil?
-    trace_id = span.context.hex_trace_id
-    "https://app.uptrace.dev/traces/#{trace_id}"
+    @client.trace_url(span)
   end
 
   # ConfigureOpentelemetry configures OpenTelemetry to export data to Uptrace.
@@ -35,7 +33,7 @@ module Uptrace
   def configure_opentelemetry(dsn: '')
     OpenTelemetry::SDK.configure do |c|
       @client = Client.new(dsn: dsn) unless dsn.empty?
-      c.add_span_processor(span_processor(@client.dsn.to_s)) unless client.disabled?
+      c.add_span_processor(span_processor(@client.dsn)) unless client.disabled?
 
       yield c if block_given?
     end
@@ -45,9 +43,9 @@ module Uptrace
 
   def span_processor(dsn)
     exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
-      endpoint: 'https://otlp.uptrace.dev/v1/traces',
+      endpoint: "#{dsn.otlp_addr}/v1/traces",
       # Set the Uptrace DSN here or use UPTRACE_DSN env var.
-      headers: { 'uptrace-dsn': dsn },
+      headers: { 'uptrace-dsn': dsn.to_s },
       compression: 'gzip'
     )
     OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
