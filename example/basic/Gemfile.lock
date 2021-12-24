@@ -2,8 +2,8 @@ PATH
   remote: ../..
   specs:
     uptrace (1.0.1)
-      opentelemetry-exporter-otlp (~> 0.20.5)
-      opentelemetry-sdk (~> 1.0.0)
+      opentelemetry-exporter-otlp (>= 0.20.5, < 0.22.0)
+      opentelemetry-sdk (~> 1.0.2)
 
 GEM
   remote: https://rubygems.org/
