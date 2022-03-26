@@ -8,7 +8,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    google-protobuf (3.19.1-x86_64-linux)
+    google-protobuf (3.19.2-x86_64-linux)
     opentelemetry-api (1.0.1)
     opentelemetry-common (0.19.3)
       opentelemetry-api (~> 1.0)
