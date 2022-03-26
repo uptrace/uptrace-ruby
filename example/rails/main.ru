@@ -48,7 +48,7 @@ class ExampleController < ActionController::Base
           <li><%= link_to 'Hello world', hello_path(username: 'world') %></li>
           <li><%= link_to 'Hello foo-bar', hello_path(username: 'foo-bar') %></li>
         </ul>
-        <p><a href="#{trace_url}" target="_blank">View trace</a></p>
+        <p>View trace: <a href="#{trace_url}" target="_blank">#{trace_url}</a></p>
       </html>
     )
   end
@@ -58,7 +58,7 @@ class ExampleController < ActionController::Base
     render inline: %(
       <html>
         <h3>Hello #{params[:username]}</h3>
-        <p><a href="#{trace_url}" target="_blank">View trace</a></p>
+        <p>View trace: <a href="#{trace_url}" target="_blank">#{trace_url}</a></p>
       </html>
     )
   end

@@ -1,23 +1,23 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    google-protobuf (3.19.2-x86_64-linux)
-    opentelemetry-api (1.0.0)
-    opentelemetry-common (0.19.2)
+    google-protobuf (3.19.4-x86_64-linux)
+    opentelemetry-api (1.0.1)
+    opentelemetry-common (0.19.3)
       opentelemetry-api (~> 1.0)
-    opentelemetry-exporter-otlp (0.20.5)
+    opentelemetry-exporter-otlp (0.20.6)
       google-protobuf (~> 3.7)
       opentelemetry-api (~> 1.0)
       opentelemetry-common (~> 0.19.2)
       opentelemetry-sdk (~> 1.0)
-    opentelemetry-instrumentation-base (0.18.3)
+    opentelemetry-instrumentation-base (0.19.0)
       opentelemetry-api (~> 1.0)
-    opentelemetry-sdk (1.0.0)
+    opentelemetry-sdk (1.0.2)
       opentelemetry-api (~> 1.0)
-      opentelemetry-common (~> 0.19.2)
-      opentelemetry-instrumentation-base (~> 0.18.3)
+      opentelemetry-common (~> 0.19.3)
+      opentelemetry-instrumentation-base (~> 0.19.0)
       opentelemetry-semantic_conventions
-    opentelemetry-semantic_conventions (1.6.1)
+    opentelemetry-semantic_conventions (1.8.0)
       opentelemetry-api (~> 1.0)
 
 PLATFORMS

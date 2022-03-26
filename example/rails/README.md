@@ -14,7 +14,7 @@ bundle install
 Start the server and open [http://localhost:9292/](http://localhost:9292/):
 
 ```shell
-UPTRACE_DSN="https://<token>@api.uptrace.dev/<project_id>" rackup main.ru
+UPTRACE_DSN="https://<token>@uptrace.dev/<project_id>" rackup main.ru
 ```
 
 ## Documentation

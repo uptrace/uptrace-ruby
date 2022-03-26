@@ -13,5 +13,5 @@ bundle install
 Run:
 
 ```shell
-UPTRACE_DSN="https://<token>@api.uptrace.dev/<project_id>" ./main.rb
+UPTRACE_DSN="https://<token>@uptrace.dev/<project_id>" ./main.rb
 ```

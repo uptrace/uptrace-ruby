@@ -17,7 +17,7 @@ module Uptrace
         Uptrace.logger.error("Uptrace is disabled: #{e.message}")
         @disabled = true
 
-        @dsn = DSN.new('https://TOKEN@api.uptrace.dev/PROJECT_ID')
+        @dsn = DSN.new('https://TOKEN@uptrace.dev/PROJECT_ID')
       end
     end
 
