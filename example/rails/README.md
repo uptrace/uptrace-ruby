@@ -1,4 +1,4 @@
-# Rails
+# Instrumenting Rails with OpenTelemetry example
 
 ## Example
 
@@ -11,13 +11,16 @@ Install dependencies:
 bundle install
 ```
 
-Start the server and open [http://localhost:9292/](http://localhost:9292/):
+Start the server:
 
 ```shell
 UPTRACE_DSN="https://<token>@uptrace.dev/<project_id>" rackup main.ru
 ```
 
+Then open [http://localhost:9292/](http://localhost:9292/)
+
 ## Documentation
 
 See
-[opentelemetry-instrumentation-rails](https://github.com/open-telemetry/opentelemetry-ruby/tree/main/instrumentation/rails).
+[Instrumenting Rails with OpenTelemetry](https://opentelemetry.uptrace.dev/instrumentations/ruby-rails.html)
+for details.
