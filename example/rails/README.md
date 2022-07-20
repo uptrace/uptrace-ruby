@@ -22,5 +22,5 @@ Then open [http://localhost:9292/](http://localhost:9292/)
 ## Documentation
 
 See
-[Instrumenting Rails with OpenTelemetry](https://opentelemetry.uptrace.dev/instrumentations/ruby-rails.html)
+[Instrumenting Rails with OpenTelemetry](https://uptrace.dev/opentelemetry/instrumentations/ruby-rails.html)
 for details.
