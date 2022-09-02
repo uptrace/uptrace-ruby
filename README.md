@@ -1,11 +1,11 @@
 # Uptrace Ruby exporter for OpenTelemetry
 
 ![build workflow](https://github.com/uptrace/uptrace-ruby/actions/workflows/build.yml/badge.svg)
-[![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://uptrace.dev/docs/ruby.html)
-[![Chat](https://discordapp.com/api/guilds/1000404569202884628/widget.png)](https://discord.gg/YF8tdP8Pmk)
+[![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://uptrace.dev/get/uptrace-ruby.html)
+[![Chat](https://img.shields.io/badge/-telegram-red?color=white&logo=telegram&logoColor=black)](https://t.me/uptrace)
 
-<a href="https://uptrace.dev/docs/ruby.html">
-  <img src="https://uptrace.dev/docs/devicon/ruby-original.svg" height="200px" />
+<a href="https://uptrace.dev/get/uptrace-ruby.html">
+  <img src="https://uptrace.dev/get/devicon/ruby-original.svg" height="200px" />
 </a>
 
 ## Introduction
@@ -64,5 +64,5 @@ OpenTelemetry.tracer_provider.shutdown
 ## Links
 
 - [Examples](example)
-- [Documentation](https://uptrace.dev/docs/ruby.html)
+- [Documentation](https://uptrace.dev/get/uptrace-ruby.html)
 - [Instrumentations](https://uptrace.dev/opentelemetry/instrumentations/?lang=ruby)
