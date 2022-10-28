@@ -34,6 +34,7 @@ module Uptrace
     OpenTelemetry::SDK.configure do |c|
       @client = Client.new(dsn: dsn) unless dsn.empty?
       c.add_span_processor(span_processor(@client.dsn)) unless client.disabled?
+      c.id_generator = Uptrace::IdGenerator
 
       yield c if block_given?
     end
@@ -60,3 +61,4 @@ end
 require 'uptrace/version'
 require 'uptrace/dsn'
 require 'uptrace/client'
+require 'uptrace/id_generator'

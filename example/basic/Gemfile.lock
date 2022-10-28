@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    uptrace (1.1.0)
+    uptrace (1.2.0)
       opentelemetry-exporter-otlp (~> 0.24.0)
       opentelemetry-sdk (~> 1.2.0)
 
