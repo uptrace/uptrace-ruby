@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    uptrace (1.2.0)
+    uptrace (1.2.1)
       opentelemetry-exporter-otlp (~> 0.24.0)
       opentelemetry-sdk (~> 1.2.0)
 
@@ -9,7 +9,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    google-protobuf (3.21.7-x86_64-linux)
+    google-protobuf (3.21.9-x86_64-linux)
     googleapis-common-protos-types (1.4.0)
       google-protobuf (~> 3.14)
     minitest (5.16.3)
@@ -48,7 +48,7 @@ GEM
       rubocop-ast (>= 1.17.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.21.0)
+    rubocop-ast (1.23.0)
       parser (>= 3.1.1.0)
     rubocop-minitest (0.19.1)
       rubocop (>= 0.90, < 2.0)
