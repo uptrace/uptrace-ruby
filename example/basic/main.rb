@@ -11,6 +11,10 @@ Uptrace.configure_opentelemetry(dsn: '') do |c|
   # c is OpenTelemetry::SDK::Configurator
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
+
+  c.resource = OpenTelemetry::SDK::Resources::Resource.create(
+    'deployment.environment' => 'production'
+  )
 end
 
 # Create a tracer. Usually, tracer is a global variable.

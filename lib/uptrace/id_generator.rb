@@ -15,20 +15,14 @@ module Uptrace
     # @return [#bytes]
     RANDOM = Random.respond_to?(:bytes) ? Random : Random::DEFAULT
 
-    # An invalid trace identifier, a 16-byte string with all zero bytes.
-    INVALID_TRACE_ID = ("\0" * 16).b
-
-    # An invalid span identifier, an 8-byte string with all zero bytes.
-    INVALID_SPAN_ID = ("\0" * 8).b
-
     # Generates a valid trace identifier, a 16-byte string with at least one
     # non-zero byte.
     #
     # @return [String] a valid trace ID.
     def generate_trace_id
       time = (Time.now.to_f * 1_000_000).to_i
-      high = RANDOM.bytes(8)
-      low = [time & 0xFFFFFFFF, time >> 32].pack('VV')
+      high = [time & 0xFFFFFFFF, time >> 32].pack('VV')
+      low = RANDOM.bytes(8)
       high << low
     end
 
