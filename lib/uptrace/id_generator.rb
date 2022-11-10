@@ -20,8 +20,8 @@ module Uptrace
     #
     # @return [String] a valid trace ID.
     def generate_trace_id
-      time = (Time.now.to_f * 1_000_000).to_i
-      high = [time & 0xFFFFFFFF, time >> 32].pack('VV')
+      time = (Time.now.to_f * 1_000_000_000).to_i
+      high = [time >> 32, time & 0xFFFFFFFF].pack('NN')
       low = RANDOM.bytes(8)
       high << low
     end
@@ -32,8 +32,8 @@ module Uptrace
     # @return [String] a valid span ID.
     def generate_span_id
       time = (Time.now.to_f * 1000).to_i
-      high = RANDOM.bytes(4)
-      low = [time].pack('V')
+      high = [time].pack('N')
+      low = RANDOM.bytes(4)
       high << low
     end
   end
