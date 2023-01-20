@@ -5,6 +5,9 @@ module Uptrace
   module IdGenerator
     extend self
 
+    # An invalid span identifier, an 8-byte string with all zero bytes.
+    INVALID_SPAN_ID = ("\0" * 8).b
+
     # Random number generator for generating IDs. This is an object that can
     # respond to `#bytes` and uses the system PRNG. The current logic is
     # compatible with Ruby 2.5 (which does not implement the `Random.bytes`
@@ -31,10 +34,10 @@ module Uptrace
     #
     # @return [String] a valid span ID.
     def generate_span_id
-      time = (Time.now.to_f * 1000).to_i
-      high = [time].pack('N')
-      low = RANDOM.bytes(4)
-      high << low
+      loop do
+        id = Random.bytes(8)
+        return id unless id == INVALID_SPAN_ID
+      end
     end
   end
 end

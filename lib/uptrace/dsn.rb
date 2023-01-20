@@ -28,11 +28,6 @@ module Uptrace
 
       @host = 'uptrace.dev' if @host == 'api.uptrace.dev'
       return if @host != 'uptrace.dev'
-
-      %w[project_id token].each do |k|
-        v = public_send(k)
-        raise ArgumentError, %(DSN=#{dsn.inspect} does not have a #{k}) if v.nil? || v.empty?
-      end
     end
 
     def to_s
