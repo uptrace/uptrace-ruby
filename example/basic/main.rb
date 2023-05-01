@@ -22,14 +22,17 @@ tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
 
 # Create a root span (a trace) to measure some operation.
 tracer.in_span('main-operation', kind: :client) do |main|
-  tracer.in_span('child1-of-main') do |child1|
-    child1.set_attribute('key1', 'value1')
+  tracer.in_span('GET /posts/:id') do |child1|
+    child1.set_attribute('http.method', 'GET')
+    child1.set_attribute('http.route', '/posts/:id')
+    child1.set_attribute('http.url', 'http://localhost:8080/posts/123')
+    child1.set_attribute('http.status_code', 200)
     child1.record_exception(ArgumentError.new('error1'))
   end
 
-  tracer.in_span('child2-of-main') do |child2|
-    child2.set_attribute('key2', '24')
-    child2.set_attribute('key3', 123.456)
+  tracer.in_span('SELECT') do |child2|
+    child2.set_attribute('db.system', 'mysql')
+    child2.set_attribute('db.statement', 'SELECT * FROM posts LIMIT 100')
   end
 
   puts("trace URL: #{Uptrace.trace_url(main)}")

@@ -5,11 +5,15 @@ require 'rubygems'
 require 'bundler/setup'
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
+require 'opentelemetry-propagator-xray'
+
+dsn = ENV.fetch('UPTRACE_DSN')
+puts("using dsn: #{dsn}")
 
 exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
   endpoint: 'https://otlp.uptrace.dev/v1/traces',
   # Set the Uptrace DSN here or use UPTRACE_DSN env var.
-  headers: { 'uptrace-dsn': ENV.fetch('UPTRACE_DSN') },
+  headers: { 'uptrace-dsn': dsn },
   compression: 'gzip'
 )
 span_processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
@@ -21,6 +25,7 @@ span_processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
 OpenTelemetry::SDK.configure do |c|
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
+  c.id_generator = OpenTelemetry::Propagator::XRay::IDGenerator
 
   c.add_span_processor(span_processor)
 end
@@ -28,16 +33,6 @@ end
 tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '1.0.0')
 
 tracer.in_span('main') do |span|
-  tracer.in_span('child1') do |child1|
-    child1.set_attribute('key1', 'value1')
-    child1.record_exception(ArgumentError.new('error1'))
-  end
-
-  tracer.in_span('child2') do |child2|
-    child2.set_attribute('key2', '24')
-    child2.set_attribute('key3', 123.456)
-  end
-
   puts("trace id: #{span.context.hex_trace_id}")
 end
 
