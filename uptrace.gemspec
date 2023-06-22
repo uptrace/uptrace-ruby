@@ -23,10 +23,10 @@ Gem::Specification.new do |spec|
                ::Dir.glob('*.md') +
                ['LICENSE', '.yardopts']
   spec.require_paths = ['lib']
-  spec.required_ruby_version = '>= 2.5.0'
+  spec.required_ruby_version = '>= 3.0'
 
-  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.24.0'
-  spec.add_dependency 'opentelemetry-sdk', '~> 1.2.0'
+  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.26.0'
+  spec.add_dependency 'opentelemetry-sdk', '~> 1.3.0'
 
   spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.0'

@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0 - 2023-06-22
+
+- Updated OpenTelemetry to
+  [v1.3.0](https://github.com/open-telemetry/opentelemetry-ruby/blob/main/sdk/CHANGELOG.md#v130--2023-06-08).
+
 ## v1.2.0 - 2022-10-15
 
 - Updated OpenTelemetry to
