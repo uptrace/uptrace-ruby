@@ -40,7 +40,7 @@ class ExampleController < ActionController::Base
   include Rails.application.routes.url_helpers
 
   def index
-    trace_url = Uptrace.trace_url()
+    trace_url = Uptrace.trace_url
     render inline: %(
       <html>
         <p>Here are some routes for you:</p>
@@ -54,7 +54,7 @@ class ExampleController < ActionController::Base
   end
 
   def hello
-    trace_url = Uptrace.trace_url()
+    trace_url = Uptrace.trace_url
     render inline: %(
       <html>
         <h3>Hello #{params[:username]}</h3>

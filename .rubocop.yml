@@ -3,7 +3,7 @@ require:
   - rubocop-minitest
 
 AllCops:
-  TargetRubyVersion: '2.5.0'
+  TargetRubyVersion: '3.0.0'
   NewCops: enable
 
 Metrics/AbcSize:
@@ -23,4 +23,6 @@ Naming/MethodParameterName:
 Metrics/CyclomaticComplexity:
   Enabled: false
 Metrics/PerceivedComplexity:
+  Enabled: false
+Gemspec/DevelopmentDependencies:
   Enabled: false

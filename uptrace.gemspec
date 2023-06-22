@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/uptrace/uptrace-ruby'
   spec.license     = 'BSD-2-Clause'
 
-  spec.files = ::Dir.glob('lib/**/*.rb') +
-               ::Dir.glob('*.md') +
+  spec.files = Dir.glob('lib/**/*.rb') +
+               Dir.glob('*.md') +
                ['LICENSE', '.yardopts']
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 3.0'
