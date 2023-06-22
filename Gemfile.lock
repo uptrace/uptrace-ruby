@@ -52,7 +52,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
-    rubocop-minitest (0.19.1)
+    rubocop-minitest (0.27.0)
       rubocop (>= 0.90, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
@@ -71,7 +71,7 @@ DEPENDENCIES
   minitest (~> 5.0)
   rake (~> 13.0)
   rubocop (~> 1.28.2)
-  rubocop-minitest (~> 0.19.1)
+  rubocop-minitest (~> 0.27.0)
   rubocop-rake (~> 0.6.0)
   uptrace!
   yard (~> 0.9)
