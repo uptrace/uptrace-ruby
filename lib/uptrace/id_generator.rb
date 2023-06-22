@@ -16,7 +16,7 @@ module Uptrace
     # the class `Random`.
     #
     # @return [#bytes]
-    RANDOM = Random.respond_to?(:bytes) ? Random : Random::DEFAULT
+    RANDOM = Random.respond_to?(:bytes) ? Random : Random.new
 
     # Generates a valid trace identifier, a 16-byte string with at least one
     # non-zero byte.
