@@ -56,12 +56,12 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
-    rubocop-minitest (0.31.0)
+    rubocop-minitest (0.32.2)
       rubocop (>= 1.39, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
     ruby-progressbar (1.13.0)
-    unicode-display_width (2.4.2)
+    unicode-display_width (2.5.0)
     yard (0.9.34)
     yard-doctest (0.1.17)
       minitest
@@ -75,7 +75,7 @@ DEPENDENCIES
   minitest (~> 5.0)
   rake (~> 13.0)
   rubocop (~> 1.55.1)
-  rubocop-minitest (~> 0.31.0)
+  rubocop-minitest (~> 0.32.2)
   rubocop-rake (~> 0.6.0)
   uptrace!
   yard (~> 0.9)
