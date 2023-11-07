@@ -44,7 +44,7 @@ module Uptrace
 
   def span_processor(dsn)
     exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
-      endpoint: "#{dsn.otlp_addr}/v1/traces",
+      endpoint: "#{dsn.otlp_http_endpoint}/v1/traces",
       # Set the Uptrace DSN here or use UPTRACE_DSN env var.
       headers: { 'uptrace-dsn': dsn.to_s },
       compression: 'gzip'

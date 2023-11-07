@@ -7,21 +7,20 @@ describe Uptrace::DSN do
 
   let(:dsn) do
     DSN.new(
-      'https://TOKEN@api.uptrace.dev/PROJECT_ID'
+      'https://TOKEN@api.uptrace.dev'
     )
   end
 
   it 'is parsed' do
-    _(dsn.project_id).must_equal('PROJECT_ID')
     _(dsn.token).must_equal('TOKEN')
 
     _(dsn.scheme).must_equal('https')
     _(dsn.host).must_equal('uptrace.dev')
-    _(dsn.port).must_equal(443)
+    _(dsn.http_port).must_equal(443)
 
-    _(dsn.to_s).must_equal('https://TOKEN@api.uptrace.dev/PROJECT_ID')
-    _(dsn.app_addr).must_equal('https://app.uptrace.dev')
-    _(dsn.otlp_addr).must_equal('https://otlp.uptrace.dev')
+    _(dsn.to_s).must_equal('https://TOKEN@api.uptrace.dev')
+    _(dsn.site_url).must_equal('https://app.uptrace.dev')
+    _(dsn.otlp_http_endpoint).must_equal('https://otlp.uptrace.dev')
   end
 
   describe '.new' do

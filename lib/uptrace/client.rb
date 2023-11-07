@@ -17,7 +17,7 @@ module Uptrace
         Uptrace.logger.error("Uptrace is disabled: #{e.message}")
         @disabled = true
 
-        @dsn = DSN.new('https://TOKEN@uptrace.dev/PROJECT_ID')
+        @dsn = DSN.new('https://TOKEN@uptrace.dev')
       end
     end
 
@@ -30,7 +30,8 @@ module Uptrace
     def trace_url(span = nil)
       span = OpenTelemetry::Trace.current_span if span.nil?
       trace_id = span.context.hex_trace_id
-      "#{@dsn.app_addr}/traces/#{trace_id}"
+      span_id = span.context.hex_span_id
+      "#{@dsn.site_url}/traces/#{trace_id}?span_id=#{span_id}"
     end
   end
 end

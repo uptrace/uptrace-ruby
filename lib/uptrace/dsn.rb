@@ -3,7 +3,7 @@
 module Uptrace
   # Uptrace DSN
   class DSN
-    attr_reader :dsn, :scheme, :host, :port, :project_id, :token
+    attr_reader :dsn, :scheme, :host, :http_port, :token
 
     def initialize(dsn)
       raise ArgumentError, "DSN can't be empty" if dsn.empty?
@@ -17,8 +17,7 @@ module Uptrace
       @dsn = dsn
       @scheme = uri.scheme
       @host = uri.host
-      @port = uri.port
-      @project_id = uri.path.delete_prefix('/')
+      @http_port = uri.port
       @token = uri.user
 
       %w[scheme host].each do |k|
@@ -27,23 +26,24 @@ module Uptrace
       end
 
       @host = 'uptrace.dev' if @host == 'api.uptrace.dev'
-      return if @host != 'uptrace.dev'
     end
 
     def to_s
       @dsn
     end
 
-    def app_addr
+    def site_url
       return 'https://app.uptrace.dev' if @host == 'uptrace.dev'
+      return "#{@scheme}://#{@host}:#{@http_port}" if @http_port != 443
 
-      "#{@scheme}://#{@host}:#{@port}"
+      "#{@scheme}://#{@host}"
     end
 
-    def otlp_addr
+    def otlp_http_endpoint
       return 'https://otlp.uptrace.dev' if @host == 'uptrace.dev'
+      return "#{@scheme}://#{@host}:#{@http_port}" if @http_port != 443
 
-      "#{@scheme}://#{@host}:#{@port}"
+      "#{@scheme}://#{@host}"
     end
   end
 end
