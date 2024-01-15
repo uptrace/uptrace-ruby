@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rubocop', '~> 1.57.2'
+  spec.add_development_dependency 'rubocop', '~> 1.60.0'
   spec.add_development_dependency 'rubocop-minitest', '~> 0.33.0'
   spec.add_development_dependency 'rubocop-rake', '~> 0.6.0'
   spec.add_development_dependency 'yard', '~> 0.9'
