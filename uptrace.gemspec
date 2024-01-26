@@ -25,8 +25,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 3.0'
 
-  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.26.1'
-  spec.add_dependency 'opentelemetry-sdk', '~> 1.3.1'
+  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.26.2'
+  spec.add_dependency 'opentelemetry-sdk', '~> 1.4.0'
 
   spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.0'
