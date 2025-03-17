@@ -3,6 +3,8 @@
 require 'logger'
 
 require 'opentelemetry/exporter/otlp'
+require 'opentelemetry-metrics-sdk'
+require 'opentelemetry-exporter-otlp-metrics'
 
 # Uptrace provides Uptrace exporters for OpenTelemetry.
 module Uptrace
@@ -38,6 +40,8 @@ module Uptrace
 
       yield c if block_given?
     end
+
+    OpenTelemetry.meter_provider.add_metric_reader(metric_exporter(@client.dsn))
   end
 
   private
@@ -45,7 +49,6 @@ module Uptrace
   def span_processor(dsn)
     exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
       endpoint: "#{dsn.otlp_http_endpoint}/v1/traces",
-      # Set the Uptrace DSN here or use UPTRACE_DSN env var.
       headers: { 'uptrace-dsn': dsn.to_s },
       compression: 'gzip'
     )
@@ -54,6 +57,14 @@ module Uptrace
       max_queue_size: 1000,
       max_export_batch_size: 1000,
       schedule_delay: 5_000
+    )
+  end
+
+  def metric_exporter(dsn)
+    OpenTelemetry::Exporter::OTLP::Metrics::MetricsExporter.new(
+      endpoint: "#{dsn.otlp_http_endpoint}/v1/metrics",
+      headers: { 'uptrace-dsn': dsn.to_s },
+      compression: 'gzip'
     )
   end
 end

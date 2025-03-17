@@ -20,7 +20,7 @@ describe Uptrace::DSN do
 
     _(dsn.to_s).must_equal('https://TOKEN@api.uptrace.dev')
     _(dsn.site_url).must_equal('https://app.uptrace.dev')
-    _(dsn.otlp_http_endpoint).must_equal('https://otlp.uptrace.dev')
+    _(dsn.otlp_http_endpoint).must_equal('https://api.uptrace.dev')
   end
 
   describe '.new' do

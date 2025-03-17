@@ -11,7 +11,7 @@ dsn = ENV.fetch('UPTRACE_DSN')
 puts("using dsn: #{dsn}")
 
 exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
-  endpoint: 'https://otlp.uptrace.dev/v1/traces',
+  endpoint: 'https://api.uptrace.dev/v1/traces',
   # Set the Uptrace DSN here or use UPTRACE_DSN env var.
   headers: { 'uptrace-dsn': dsn },
   compression: 'gzip'

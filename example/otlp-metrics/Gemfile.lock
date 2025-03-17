@@ -1,16 +1,22 @@
-PATH
-  remote: ../..
-  specs:
-    uptrace (1.8.0)
-      opentelemetry-exporter-otlp (~> 0.30.0)
-      opentelemetry-exporter-otlp-metrics (~> 0.4.0)
-      opentelemetry-metrics-sdk (~> 0.6.0)
-      opentelemetry-sdk (~> 1.8.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
     bigdecimal (3.1.9)
+    google-protobuf (4.30.1)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.30.1-aarch64-linux)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.30.1-arm64-darwin)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.30.1-x86-linux)
+      bigdecimal
+      rake (>= 13)
+    google-protobuf (4.30.1-x86_64-darwin)
+      bigdecimal
+      rake (>= 13)
     google-protobuf (4.30.1-x86_64-linux)
       bigdecimal
       rake (>= 13)
@@ -19,31 +25,31 @@ GEM
     opentelemetry-api (1.5.0)
     opentelemetry-common (0.22.0)
       opentelemetry-api (~> 1.0)
-    opentelemetry-exporter-otlp (0.30.0)
+    opentelemetry-exporter-otlp (0.28.1)
       google-protobuf (>= 3.18)
       googleapis-common-protos-types (~> 1.3)
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
       opentelemetry-sdk (~> 1.2)
       opentelemetry-semantic_conventions
-    opentelemetry-exporter-otlp-metrics (0.4.0)
+    opentelemetry-exporter-otlp-metrics (0.2.1)
       google-protobuf (>= 3.18, < 5.0)
       googleapis-common-protos-types (~> 1.3)
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
-      opentelemetry-metrics-api (~> 0.2)
-      opentelemetry-metrics-sdk (~> 0.5)
+      opentelemetry-metrics-api (~> 0.1)
+      opentelemetry-metrics-sdk (~> 0.2)
       opentelemetry-sdk (~> 1.2)
       opentelemetry-semantic_conventions
-    opentelemetry-metrics-api (0.3.0)
+    opentelemetry-metrics-api (0.1.1)
       opentelemetry-api (~> 1.0)
-    opentelemetry-metrics-sdk (0.6.0)
+    opentelemetry-metrics-sdk (0.4.1)
       opentelemetry-api (~> 1.1)
-      opentelemetry-metrics-api (~> 0.2)
+      opentelemetry-metrics-api (~> 0.1.1)
       opentelemetry-sdk (~> 1.2)
     opentelemetry-registry (0.4.0)
       opentelemetry-api (~> 1.1)
-    opentelemetry-sdk (1.8.0)
+    opentelemetry-sdk (1.5.0)
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
       opentelemetry-registry (~> 0.2)
@@ -53,10 +59,19 @@ GEM
     rake (13.2.1)
 
 PLATFORMS
+  aarch64-linux
+  arm64-darwin
+  ruby
+  x86-linux
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
-  uptrace!
+  opentelemetry-exporter-otlp (~> 0.28.1)
+  opentelemetry-exporter-otlp-metrics (~> 0.2.0)
+  opentelemetry-metrics-api (~> 0.1.1)
+  opentelemetry-metrics-sdk (~> 0.4.0)
+  opentelemetry-sdk (~> 1.5.0)
 
 BUNDLED WITH
-   2.6.2
+   2.5.16

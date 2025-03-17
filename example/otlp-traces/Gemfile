@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'opentelemetry-exporter-otlp', '~> 0.28.1'
+gem 'opentelemetry-propagator-xray', '~> 0.22.2'
+gem 'opentelemetry-sdk', '~> 1.5.0'

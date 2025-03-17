@@ -40,7 +40,7 @@ module Uptrace
     end
 
     def otlp_http_endpoint
-      return 'https://otlp.uptrace.dev' if @host == 'uptrace.dev'
+      return 'https://api.uptrace.dev' if @host == 'uptrace.dev'
       return "#{@scheme}://#{@host}:#{@http_port}" if @http_port != 443
 
       "#{@scheme}://#{@host}"
