@@ -47,7 +47,7 @@ module Uptrace
       current_resource ||= OpenTelemetry::SDK::Resources::Resource.create
 
       host_resource = OpenTelemetry::SDK::Resources::Resource.create(
-        'host.name' => Socket.gethostname,
+        'host.name' => Socket.gethostname
       )
       c.resource = current_resource.merge(host_resource)
     end

@@ -19,6 +19,7 @@ Uptrace.configure_opentelemetry(dsn: '') do |c|
   c.service_version = '1.0.0'
 end
 
+# TraceRequestApp is a minimal Rails application
 class TraceRequestApp < Rails::Application
   config.root = __dir__
   config.secret_key_base = 'secret_key_base'
@@ -31,6 +32,7 @@ class TraceRequestApp < Rails::Application
   config.paths['config/routes.rb'] = []
 end
 
+# ExampleController
 class ExampleController < ActionController::Base
   include Rails.application.routes.url_helpers
 

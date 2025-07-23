@@ -10,7 +10,7 @@ require 'opentelemetry-logs-sdk'
 require 'opentelemetry/exporter/otlp_logs'
 
 # Ensure DSN is set
-dsn = ENV['UPTRACE_DSN']
+dsn = ENV.fetch('UPTRACE_DSN', nil)
 abort('Missing UPTRACE_DSN environment variable') unless dsn
 
 # Configure OpenTelemetry (for traces, metrics, and logs if desired)
@@ -21,7 +21,7 @@ log_exporter = OpenTelemetry::Exporter::OTLP::Logs::LogsExporter.new(
   endpoint: 'https://api.uptrace.dev/v1/logs',
   headers: { 'uptrace-dsn': dsn },  # Uptrace auth
   compression: 'gzip',              # Reduce bandwidth
-  timeout: 10                        # Seconds
+  timeout: 10 # Seconds
 )
 
 # Attach batch processor (buffers + exports logs)

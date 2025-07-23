@@ -27,14 +27,14 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'logger', '~> 1.7.0'
 
-  spec.add_dependency 'opentelemetry-sdk', '~> 1.8.0'
   spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.30.0'
+  spec.add_dependency 'opentelemetry-sdk', '~> 1.8.0'
 
-  spec.add_dependency 'opentelemetry-metrics-sdk', '~> 0.7.3'
   spec.add_dependency 'opentelemetry-exporter-otlp-metrics', '~> 0.5.0'
+  spec.add_dependency 'opentelemetry-metrics-sdk', '~> 0.7.3'
 
-  spec.add_dependency 'opentelemetry-logs-sdk', '~> 0.2.0'
   spec.add_dependency 'opentelemetry-exporter-otlp-logs', '~> 0.2.0'
+  spec.add_dependency 'opentelemetry-logs-sdk', '~> 0.2.0'
 
   spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.0'

@@ -17,7 +17,7 @@ Uptrace.configure_opentelemetry(dsn: '') do |c|
 
   # Add environment information
   c.resource = OpenTelemetry::SDK::Resources::Resource.create(
-    'deployment.environment.name' => ENV.fetch('RACK_ENV', 'development'),
+    'deployment.environment.name' => ENV.fetch('RACK_ENV', 'development')
   )
 end
 

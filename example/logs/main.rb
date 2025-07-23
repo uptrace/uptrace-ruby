@@ -16,7 +16,7 @@ Uptrace.configure_opentelemetry(dsn: '') do |c|
 
   # Add environment information
   c.resource = OpenTelemetry::SDK::Resources::Resource.create(
-    'deployment.environment.name' => ENV.fetch('RACK_ENV', 'development'),
+    'deployment.environment.name' => ENV.fetch('RACK_ENV', 'development')
   )
 end
 
@@ -37,7 +37,7 @@ logger.on_emit(
     'operation' => 'fetch_data',
     'plant_type' => 'cedar',
     'is_evergreen' => true
-  },
+  }
 )
 
 # Emit a warning log with different attributes.
@@ -48,14 +48,14 @@ logger.on_emit(
   body: 'Database connection is slow.',
   attributes: {
     'component' => 'database',
-    'latency_ms' => 500,
-  },
+    'latency_ms' => 500
+  }
 )
 
 # Emit an error log.
 begin
-  raise StandardError, "Failed to write to disk"
-rescue => e
+  raise StandardError, 'Failed to write to disk'
+rescue StandardError => e
   logger.on_emit(
     timestamp: Time.now,
     severity_text: 'ERROR',
@@ -64,7 +64,7 @@ rescue => e
     attributes: {
       'exception.type' => e.class.name,
       'exception.message' => e.message,
-      'exception.stacktrace' => e.backtrace.join("\n"),
-    },
+      'exception.stacktrace' => e.backtrace.join("\n")
+    }
   )
 end

@@ -11,7 +11,7 @@ require 'opentelemetry-metrics-sdk'
 require 'opentelemetry-exporter-otlp-metrics'
 
 # Fetch Uptrace DSN from environment (required)
-dsn = ENV['UPTRACE_DSN']
+dsn = ENV.fetch('UPTRACE_DSN', nil)
 abort('Missing UPTRACE_DSN environment variable') unless dsn
 
 puts "Using Uptrace DSN: #{dsn}"
