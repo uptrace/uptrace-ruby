@@ -1,4 +1,4 @@
-# Uptrace Ruby exporter for OpenTelemetry
+# OpenTelemetry Ruby distro for Uptrace
 
 ![build workflow](https://github.com/uptrace/uptrace-ruby/actions/workflows/build.yml/badge.svg)
 [![Documentation](https://img.shields.io/badge/uptrace-documentation-informational)](https://uptrace.dev/get/opentelemetry-ruby)
@@ -10,8 +10,11 @@
 
 ## Introduction
 
-uptrace-ruby is an OpenTelemery distribution configured to export
-[traces](https://uptrace.dev/opentelemetry/distributed-tracing) to Uptrace.
+`uptrace-ruby` is a preconfigured [OpenTelemetry](https://opentelemetry.io)
+distribution for Ruby that exports **traces, logs, and metrics** to
+[Uptrace](https://uptrace.dev). It builds on top of
+[opentelemetry-ruby](https://github.com/open-telemetry/opentelemetry-ruby) and
+makes connecting your application to Uptrace fast and easy.
 
 ## Quickstart
 
@@ -21,7 +24,8 @@ Install uptrace-ruby:
 gem install uptrace
 ```
 
-Run the [basic example](example/basic) below using the DSN from the Uptrace project settings page.
+Run the [traces example](example/traces) below using the DSN from the Uptrace
+project settings page.
 
 ```ruby
 #!/usr/bin/env ruby
@@ -32,41 +36,51 @@ require 'bundler/setup'
 require 'uptrace'
 
 # Configure OpenTelemetry with sensible defaults.
-# Copy your project DSN here or use UPTRACE_DSN env var.
+# DSN can be set via UPTRACE_DSN environment variable.
+# Example: export UPTRACE_DSN="https://<project_secret>@uptrace.dev?grpc=4317"
 Uptrace.configure_opentelemetry(dsn: '') do |c|
-  # c is OpenTelemetry::SDK::Configurator
+  # c is an instance of OpenTelemetry::SDK::Configurator
+
+  # Configure service metadata (helps identify this service in Uptrace).
   c.service_name = 'myservice'
   c.service_version = '1.0.0'
 
+  # Add environment information
   c.resource = OpenTelemetry::SDK::Resources::Resource.create(
-    'deployment.environment' => 'production'
+    'deployment.environment.name' => ENV.fetch('RACK_ENV', 'development')
   )
 end
 
-# Create a tracer. Usually, tracer is a global variable.
-tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
+# Ensure spans are flushed even if the program exits unexpectedly.
+at_exit { OpenTelemetry.tracer_provider.shutdown }
 
-# Create a root span (a trace) to measure some operation.
-tracer.in_span('main-operation', kind: :client) do |main|
-  tracer.in_span('GET /posts/:id') do |child1|
-    child1.set_attribute('http.method', 'GET')
-    child1.set_attribute('http.route', '/posts/:id')
-    child1.set_attribute('http.url', 'http://localhost:8080/posts/123')
-    child1.set_attribute('http.status_code', 200)
-    child1.record_exception(ArgumentError.new('error1'))
+# Register a tracer (usually stored globally).
+TRACER = OpenTelemetry.tracer_provider.tracer('my_app', '0.1.0')
+
+# Example trace with nested spans.
+TRACER.in_span('main-operation', kind: :server) do |main_span|
+  # Simulate an HTTP request span.
+  TRACER.in_span('GET /posts/:id', kind: :client) do |http_span|
+    http_span.set_attribute('http.method', 'GET')
+    http_span.set_attribute('http.route', '/posts/:id')
+    http_span.set_attribute('http.url', 'http://localhost:8080/posts/123')
+    http_span.set_attribute('http.status_code', 200)
+    http_span.record_exception(ArgumentError.new('Invalid parameter'))
   end
 
-  tracer.in_span('SELECT') do |child2|
-    child2.set_attribute('db.system', 'mysql')
-    child2.set_attribute('db.statement', 'SELECT * FROM posts LIMIT 100')
+  # Simulate a database query span.
+  TRACER.in_span('SELECT posts', kind: :client) do |db_span|
+    db_span.set_attribute('db.system', 'mysql')
+    db_span.set_attribute('db.statement', 'SELECT * FROM posts LIMIT 100')
   end
 
-  puts("trace URL: #{Uptrace.trace_url(main)}")
+  # Print the trace URL (clickable in console).
+  puts "Trace URL: #{Uptrace.trace_url(main_span)}"
 end
-
-# Send buffered spans and free resources.
-OpenTelemetry.tracer_provider.shutdown
 ```
+
+Additional examples are available for [logs](example/logs) and
+[metrics](example/metrics).
 
 ## Links
 
