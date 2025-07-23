@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   spec.authors     = ['Uptrace Authors']
   spec.email       = ['support@uptrace.dev']
 
-  spec.summary     = 'Uptrace Ruby exporter for OpenTelemetry'
-  spec.description = 'Uptrace Ruby exporter for OpenTelemetry'
+  spec.summary     = 'Uptrace wrapper for OpenTelemetry Ruby'
+  spec.description = 'Configures OpenTelemetry Ruby to export data to Uptrace'
   spec.homepage    = 'https://github.com/uptrace/uptrace-ruby'
   spec.license     = 'BSD-2-Clause'
 
@@ -25,11 +25,16 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 3.0'
 
-  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.30.0'
-  spec.add_dependency 'opentelemetry-sdk', '~> 1.8.0'
+  spec.add_dependency 'logger', '~> 1.7.0'
 
-  spec.add_dependency 'opentelemetry-exporter-otlp-metrics', '~> 0.4.0'
-  spec.add_dependency 'opentelemetry-metrics-sdk', '~> 0.6.0'
+  spec.add_dependency 'opentelemetry-sdk', '~> 1.8.0'
+  spec.add_dependency 'opentelemetry-exporter-otlp', '~> 0.30.0'
+
+  spec.add_dependency 'opentelemetry-metrics-sdk', '~> 0.7.3'
+  spec.add_dependency 'opentelemetry-exporter-otlp-metrics', '~> 0.5.0'
+
+  spec.add_dependency 'opentelemetry-logs-sdk', '~> 0.2.0'
+  spec.add_dependency 'opentelemetry-exporter-otlp-logs', '~> 0.2.0'
 
   spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.0'

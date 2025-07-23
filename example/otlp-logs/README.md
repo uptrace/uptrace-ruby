@@ -1,7 +1,7 @@
-# Using OTLP Metrics Exporter with Uptrace
+# Using OTLP Logs Exporter with Uptrace
 
 This example demonstrates how to configure
-[OpenTelemetry Ruby](https://uptrace.dev/get/opentelemetry-ruby) to export metrics to Uptrace.
+[OpenTelemetry Ruby](https://uptrace.dev/get/opentelemetry-ruby) to export logs to Uptrace.
 
 ## Prerequisites
 

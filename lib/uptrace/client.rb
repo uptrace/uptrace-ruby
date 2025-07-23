@@ -9,7 +9,7 @@ module Uptrace
 
     # @param [string] dsn
     def initialize(dsn: '')
-      dsn = ENV.fetch('UPTRACE_DSN', '') if dsn.empty?
+      dsn = ENV.fetch('UPTRACE_DSN', '') if dsn.empty? || dsn == '<FIXME>'
 
       begin
         @dsn = DSN.new(dsn)
@@ -17,7 +17,7 @@ module Uptrace
         Uptrace.logger.error("Uptrace is disabled: #{e.message}")
         @disabled = true
 
-        @dsn = DSN.new('https://TOKEN@uptrace.dev')
+        @dsn = DSN.new('https://project_secret@api.uptrace.dev?grpc=4317')
       end
     end
 

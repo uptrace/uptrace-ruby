@@ -6,6 +6,7 @@
 
 require 'rubygems'
 require 'bundler/setup'
+require 'rails'
 require 'action_controller/railtie'
 require 'opentelemetry-instrumentation-rails'
 require 'uptrace'
@@ -18,30 +19,24 @@ Uptrace.configure_opentelemetry(dsn: '') do |c|
   c.service_version = '1.0.0'
 end
 
-# TraceRequestApp is a minimal Rails application inspired by the Rails
-# bug report template for action controller.
-# The configuration is compatible with Rails 6.0
 class TraceRequestApp < Rails::Application
   config.root = __dir__
-  config.hosts << 'example.org'
-  secrets.secret_key_base = 'secret_key_base'
+  config.secret_key_base = 'secret_key_base'
   config.eager_load = false
-  config.logger = Logger.new($stdout)
-  Rails.logger  = config.logger
 
-  routes.append do
-    get '/', to: 'example#index'
-    get '/hello/:username', to: 'example#hello', as: 'hello'
-  end
+  config.logger = Logger.new($stdout)
+  Rails.logger = config.logger
+
+  # Tell Rails we don't use a standard config/routes.rb
+  config.paths['config/routes.rb'] = []
 end
 
-# ExampleController
 class ExampleController < ActionController::Base
   include Rails.application.routes.url_helpers
 
   def index
     trace_url = Uptrace.trace_url
-    render inline: %(
+    render inline: <<~HTML
       <html>
         <p>Here are some routes for you:</p>
         <ul>
@@ -50,20 +45,27 @@ class ExampleController < ActionController::Base
         </ul>
         <p>View trace: <a href="#{trace_url}" target="_blank">#{trace_url}</a></p>
       </html>
-    )
+    HTML
   end
 
   def hello
     trace_url = Uptrace.trace_url
-    render inline: %(
+    render inline: <<~HTML
       <html>
         <h3>Hello #{params[:username]}</h3>
         <p>View trace: <a href="#{trace_url}" target="_blank">#{trace_url}</a></p>
       </html>
-    )
+    HTML
   end
 end
 
+# Initialize Rails
 Rails.application.initialize!
+
+# Draw routes AFTER initialization so Rails doesn’t override them
+Rails.application.routes.draw do
+  get '/', to: 'example#index'
+  get '/hello/:username', to: 'example#hello', as: 'hello'
+end
 
 run Rails.application

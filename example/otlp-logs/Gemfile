@@ -7,6 +7,5 @@ gem 'logger', '~> 1.7.0'
 gem 'opentelemetry-sdk', '~> 1.8.0'
 gem 'opentelemetry-exporter-otlp', '~> 0.30.0'
 
-gem 'opentelemetry-metrics-sdk', '~> 0.7.3'
-gem 'opentelemetry-metrics-api', '~> 0.3.0'
-gem 'opentelemetry-exporter-otlp-metrics', '~> 0.5.0'
+gem 'opentelemetry-logs-sdk', '~> 0.2.0'
+gem 'opentelemetry-exporter-otlp-logs', '~> 0.2.0'

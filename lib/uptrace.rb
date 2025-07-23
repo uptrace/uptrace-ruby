@@ -2,23 +2,22 @@
 
 require 'logger'
 
+require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
+
 require 'opentelemetry-metrics-sdk'
 require 'opentelemetry-exporter-otlp-metrics'
+
+require 'opentelemetry-logs-sdk'
+require 'opentelemetry/exporter/otlp_logs'
 
 # Uptrace provides Uptrace exporters for OpenTelemetry.
 module Uptrace
   extend self
 
   attr_accessor :logger
-  attr_writer :client
 
   self.logger = Logger.new($stdout)
-
-  # @return [Object, Client] registered client or a default no-op implementation of the client.
-  def client
-    @client ||= Client.new
-  end
 
   # @param [optional OpenTelemetry::Trace::Span] span
   # @return [String]
@@ -33,15 +32,32 @@ module Uptrace
   # @yieldparam [OpenTelemetry::SDK::Configurator] c Yields a configurator to the
   #   provided block
   def configure_opentelemetry(dsn: '')
+    @client = Client.new(dsn: dsn)
+    return if @client.disabled?
+
     OpenTelemetry::SDK.configure do |c|
-      @client = Client.new(dsn: dsn) unless dsn.empty?
-      c.add_span_processor(span_processor(@client.dsn)) unless client.disabled?
+      # Set default IdGenerator and let users override
       c.id_generator = Uptrace::IdGenerator
+      c.add_span_processor(span_processor(@client.dsn))
 
       yield c if block_given?
+
+      # Merge resource
+      current_resource = c.instance_variable_get(:@resource)
+      current_resource ||= OpenTelemetry::SDK::Resources::Resource.create
+
+      host_resource = OpenTelemetry::SDK::Resources::Resource.create(
+        'host.name' => Socket.gethostname,
+      )
+      c.resource = current_resource.merge(host_resource)
     end
 
-    OpenTelemetry.meter_provider.add_metric_reader(metric_exporter(@client.dsn))
+    me = metric_exporter(@client.dsn)
+    OpenTelemetry.meter_provider.add_metric_reader(me)
+
+    le = log_exporter(@client.dsn)
+    processor = OpenTelemetry::SDK::Logs::Export::BatchLogRecordProcessor.new(le)
+    OpenTelemetry.logger_provider.add_log_record_processor(processor)
   end
 
   private
@@ -63,6 +79,14 @@ module Uptrace
   def metric_exporter(dsn)
     OpenTelemetry::Exporter::OTLP::Metrics::MetricsExporter.new(
       endpoint: "#{dsn.otlp_http_endpoint}/v1/metrics",
+      headers: { 'uptrace-dsn': dsn.to_s },
+      compression: 'gzip'
+    )
+  end
+
+  def log_exporter(dsn)
+    OpenTelemetry::Exporter::OTLP::Logs::LogsExporter.new(
+      endpoint: "#{dsn.otlp_http_endpoint}/v1/logs",
       headers: { 'uptrace-dsn': dsn.to_s },
       compression: 'gzip'
     )
