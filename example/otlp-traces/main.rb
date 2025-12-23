@@ -5,9 +5,9 @@
 # Docs: https://uptrace.dev/get/opentelemetry-ruby
 
 require 'bundler/setup'
+require 'uri'
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
-require 'opentelemetry-propagator-xray'
 require 'opentelemetry/instrumentation/all'
 
 # Fetch Uptrace DSN from environment (required)
@@ -16,9 +16,20 @@ abort('Missing UPTRACE_DSN environment variable') unless dsn
 
 puts "Using Uptrace DSN: #{dsn}"
 
+# Derive the OTLP HTTP endpoint from the DSN host to support staging/self-hosted URLs.
+uri = URI.parse(dsn)
+host = if uri.port && uri.port != uri.default_port
+  "#{uri.host}:#{uri.port}"
+else
+  uri.host
+end
+base_path = uri.path.to_s
+base_path = '' if base_path == '/'
+endpoint = "#{uri.scheme}://#{host}#{base_path}/v1/traces"
+
 # Configure OTLP exporter to send data to Uptrace
 exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
-  endpoint: 'https://api.uptrace.dev/v1/traces',
+  endpoint: endpoint,
   headers: { 'uptrace-dsn': dsn }, # Uptrace authentication
   compression: 'gzip'
 )
@@ -34,7 +45,6 @@ span_processor = OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
 OpenTelemetry::SDK.configure do |c|
   c.service_name = 'myservice'         # Customize your service name
   c.service_version = '1.0.0'          # Optional: version for observability
-  c.id_generator = OpenTelemetry::Propagator::XRay::IDGenerator # Optional: AWS X-Ray style IDs
 
   c.add_span_processor(span_processor)
 

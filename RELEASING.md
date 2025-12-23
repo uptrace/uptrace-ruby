@@ -3,6 +3,19 @@
 This guide explains how to release a new version of the uptrace-ruby gem to
 RubyGems.
 
+## Install Ruby
+
+On Ubuntu, install Ruby with rbenv:
+
+```shell
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+rbenv init
+rbenv install -l
+rbenv install 3.4.8
+rbenv global 3.4.8
+```
+
 ## Managing Dependencies
 
 ### Checking for outdated dependencies

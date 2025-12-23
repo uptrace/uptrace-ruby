@@ -3,6 +3,7 @@
 
 require 'rubygems'
 require 'bundler/setup'
+require 'uri'
 
 require 'opentelemetry/sdk'
 require 'opentelemetry/exporter/otlp'
@@ -16,9 +17,20 @@ abort('Missing UPTRACE_DSN environment variable') unless dsn
 
 puts "Using Uptrace DSN: #{dsn}"
 
+# Derive the OTLP HTTP endpoint from the DSN host to support staging/self-hosted URLs.
+uri = URI.parse(dsn)
+host = if uri.port && uri.port != uri.default_port
+  "#{uri.host}:#{uri.port}"
+else
+  uri.host
+end
+base_path = uri.path.to_s
+base_path = '' if base_path == '/'
+endpoint = "#{uri.scheme}://#{host}#{base_path}/v1/metrics"
+
 # Configure the OTLP metrics exporter
 metric_exporter = OpenTelemetry::Exporter::OTLP::Metrics::MetricsExporter.new(
-  endpoint: 'https://api.uptrace.dev/v1/metrics',
+  endpoint: endpoint,
   headers: { 'uptrace-dsn': dsn }, # Uptrace authentication
   compression: 'gzip'
 )
