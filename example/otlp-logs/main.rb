@@ -19,10 +19,10 @@ OpenTelemetry::SDK.configure
 # Derive the OTLP HTTP endpoint from the DSN host to support staging/self-hosted URLs.
 uri = URI.parse(dsn)
 host = if uri.port && uri.port != uri.default_port
-  "#{uri.host}:#{uri.port}"
-else
-  uri.host
-end
+         "#{uri.host}:#{uri.port}"
+       else
+         uri.host
+       end
 base_path = uri.path.to_s
 base_path = '' if base_path == '/'
 endpoint = "#{uri.scheme}://#{host}#{base_path}/v1/logs"
