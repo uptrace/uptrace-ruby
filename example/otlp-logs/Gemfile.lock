@@ -1,38 +1,39 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    bigdecimal (4.0.1)
-    google-protobuf (4.33.2)
+    bigdecimal (4.1.0)
+    google-protobuf (4.34.1)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-aarch64-linux-gnu)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-aarch64-linux-gnu)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-aarch64-linux-musl)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-aarch64-linux-musl)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-arm64-darwin)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-arm64-darwin)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-x86-linux-gnu)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-x86-linux-gnu)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-x86-linux-musl)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-x86-linux-musl)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-x86_64-darwin)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-x86_64-darwin)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-x86_64-linux-gnu)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-x86_64-linux-gnu)
       bigdecimal
-      rake (>= 13)
-    google-protobuf (4.33.2-x86_64-linux-musl)
+      rake (~> 13.3)
+    google-protobuf (4.34.1-x86_64-linux-musl)
       bigdecimal
-      rake (>= 13)
+      rake (~> 13.3)
     googleapis-common-protos-types (1.22.0)
       google-protobuf (~> 4.26)
     logger (1.7.0)
-    opentelemetry-api (1.7.0)
+    opentelemetry-api (1.8.0)
+      logger
     opentelemetry-common (0.23.0)
       opentelemetry-api (~> 1.0)
     opentelemetry-exporter-otlp (0.31.1)

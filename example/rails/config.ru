@@ -33,7 +33,7 @@ class TraceRequestApp < Rails::Application
 end
 
 # ExampleController
-class ExampleController < ActionController::Base
+class ExampleController < ActionController::Base # rubocop:disable Style/OneClassPerFile
   include Rails.application.routes.url_helpers
 
   def index

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
 module Uptrace
-  VERSION = '1.10.0'
+  # Current version of the uptrace gem
+  VERSION = '1.11.0'
 end

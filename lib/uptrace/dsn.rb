@@ -28,10 +28,12 @@ module Uptrace
       @host = 'uptrace.dev' if @host == 'api.uptrace.dev'
     end
 
+    # @return [String] the original DSN string
     def to_s
       @dsn
     end
 
+    # @return [String] the Uptrace site URL for viewing traces
     def site_url
       return 'https://app.uptrace.dev' if @host == 'uptrace.dev'
       return "#{@scheme}://#{@host}:#{@http_port}" if @http_port != 443
@@ -39,6 +41,7 @@ module Uptrace
       "#{@scheme}://#{@host}"
     end
 
+    # @return [String] the OTLP HTTP endpoint for exporting telemetry
     def otlp_http_endpoint
       return 'https://api.uptrace.dev' if @host == 'uptrace.dev'
       return "#{@scheme}://#{@host}:#{@http_port}" if @http_port != 443
