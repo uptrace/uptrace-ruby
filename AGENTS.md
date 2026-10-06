@@ -45,7 +45,7 @@ Tests use Minitest in `test/`. Run with `bundle exec rake test`. Currently cover
 ## Code Conventions
 
 - All files start with `# frozen_string_literal: true`
-- Ruby >= 3.0
+- Ruby >= 3.3
 - RuboCop enforced with `rubocop-rake` and `rubocop-minitest` plugins
 - Line length, method length, and ABC size checks are disabled
 - YARD documentation with Markdown markup

@@ -3,7 +3,7 @@ plugins:
   - rubocop-minitest
 
 AllCops:
-  TargetRubyVersion: '3.0.0'
+  TargetRubyVersion: '3.3'
   NewCops: enable
 
 Metrics/AbcSize:

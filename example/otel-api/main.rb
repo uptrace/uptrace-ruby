@@ -22,7 +22,7 @@ tracer.in_span('main', kind: :server) do |span|
     span.set_attribute('key2', 123.456)
 
     span.add_event(
-      name: 'log',
+      'log',
       attributes: {
         'log.severity' => 'error',
         'log.message' => 'User not found',
