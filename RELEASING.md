@@ -28,11 +28,17 @@ bundle outdated
 
 ### Updating dependencies
 
-Edit the `Gemfile` to update dependency versions, then update the
+Edit `uptrace.gemspec` to update dependency versions, then update the
 `Gemfile.lock`:
 
 ```shell
 bundle update
+```
+
+Also refresh the lockfiles of the examples, which use the local gem:
+
+```shell
+for d in example/*/; do (cd "$d" && bundle update); done
 ```
 
 ### Installing dependencies
@@ -48,7 +54,7 @@ bundle install
 Before releasing, ensure all tests pass:
 
 ```shell
-rake test
+bundle exec rake test
 ```
 
 ## Running linter
@@ -73,11 +79,18 @@ bundle exec rubocop -A
 
    ```shell
    gem build uptrace.gemspec
-   bundle install
-   gem push uptrace-X.Y.Z.gem
+   gem push uptrace-X.Y.Z.gem --otp CODE
    ```
 
-   Replace `X.Y.Z` with the actual version number you specified in step 1.
+   Replace `X.Y.Z` with the actual version number you specified in step 1 and
+   `CODE` with your current RubyGems MFA code (MFA is required to push).
+
+3. **Tag the release**:
+
+   ```shell
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
 
 **Note**: Make sure you have the necessary permissions to push to the uptrace
 gem on RubyGems before attempting to publish.

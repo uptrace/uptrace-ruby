@@ -54,4 +54,7 @@ Tests use Minitest in `test/`. Run with `bundle exec rake test`. Currently cover
 
 1. Update version in `lib/uptrace/version.rb`
 2. `gem build uptrace.gemspec`
-3. `gem push uptrace-X.Y.Z.gem`
+3. `gem push uptrace-X.Y.Z.gem --otp CODE` (RubyGems MFA is required)
+4. `git tag vX.Y.Z && git push origin vX.Y.Z`
+
+See `RELEASING.md` for details.
